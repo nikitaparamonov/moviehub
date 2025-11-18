@@ -1,0 +1,111 @@
+/* ----------------- Movie Section ----------------- */
+.movie-section {
+    background-color: white;
+    padding: 10px 100px 0;
+}
+
+.movie-section h2 {
+    margin: 0;
+}
+
+/* ----------------- Movie Row ----------------- */
+.movie-row {
+	display: flex;
+	gap: 1rem;
+	overflow-x: auto; /* Horizontal scrolling */
+	overflow-y: hidden; /* Hide vertical scroll */
+	padding: 1rem 0;
+}
+
+/* ---------- Movie Card ---------- */
+.movie-card {
+	width: 200px;
+	flex-shrink: 0;
+	border-radius: 8px;
+	cursor: pointer;
+	overflow: hidden; /* clips inner content & shine */
+	position: relative;
+	min-height: 320px; /* base size for cards with short titles */
+	background: linear-gradient(145deg, #e6e6e6 0%, #c0c0c0 25%, #f5f5f5 50%, #bfbfbf 75%, #e0e0e0 100%);
+	box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.5), inset 0 -2px 6px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s ease; /* added for scaling the whole card */
+}
+
+/* ---------- Hover Effect ---------- */
+.movie-card:hover {
+	transform: scale(1.05); /* scale the whole card */
+}
+
+/* ---------- Inner Content (no scaling) ---------- */
+.movie-card-inner {
+	display: flex;
+	flex-direction: column;
+	transition: transform 0.3s ease; /* kept for smooth inner transitions */
+}
+
+/* ---------- Image ---------- */
+.movie-card-inner img {
+	width: 100%;
+	aspect-ratio: 2/3;
+	object-fit: cover;
+	display: block;
+}
+
+/* ---------- Title ---------- */
+.movie-card-inner p {
+	margin: 0.5rem;
+	font-weight: 600;
+	text-align: center;
+	color: #1a1a1a;
+	word-break: break-word;
+
+	display: -webkit-box;
+	-webkit-line-clamp: 3; /* now allow up to 3 lines */
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* ---------- Shine Effect ---------- */
+.movie-card::after {
+	content: '';
+	position: absolute;
+	top: -50%;
+	left: -50%;
+	width: 200%;
+	height: 200%;
+	background: linear-gradient(120deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 60%);
+	transform: rotate(25deg);
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+
+.movie-card:hover::after {
+	opacity: 1;
+	animation: shine 1s forwards;
+}
+
+@keyframes shine {
+	0% {
+		transform: rotate(25deg) translateX(-100%);
+	}
+	100% {
+		transform: rotate(25deg) translateX(100%);
+	}
+}
+
+/* ----------------- Movie Title ----------------- */
+.movie-card p {
+	margin: 0.5rem;
+	font-weight: 600;
+	text-align: center;
+	flex-shrink: 0;
+	color: #1a1a1a; /* dark text for contrast */
+
+	display: -webkit-box;
+	-webkit-line-clamp: 2; /* maximum 2 lines */
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
