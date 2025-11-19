@@ -1,0 +1,126 @@
+/* --- Main container --- */
+.search-main {
+  flex-grow: 1;
+  padding: 1rem 3rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Results list --- */
+.search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* --- Highlighted query text --- */
+.highlight {
+  color: #01b4e4;
+  font-weight: 600;
+}
+
+/* --- Loading / Error / No results text --- */
+.loading-text,
+.error-text,
+.no-results-text {
+  text-align: center;
+  font-size: 1rem;
+}
+
+/* --- Sidebar --- */
+.search-sidebar {
+	width: 220px;
+	border-right: 1px solid #e3e3e3;
+	padding: 1.5rem;
+	flex-shrink: 0;
+}
+
+.search-sidebar h3 {
+	text-align: center;
+	margin-bottom: 1.2rem;
+	font-size: 20px;
+	font-weight: 600;
+}
+
+/* --- Filter button --- */
+.search-filter-btn {
+	width: 100%;
+	padding: 0.75rem 1rem;
+	border-radius: 10px;
+	background: #f2f5f6;
+	border: 1px solid #d9d9d9;
+	font-size: 15px;
+	font-weight: 500;
+	text-align: left;
+	cursor: pointer;
+	margin-bottom: 0.6rem;
+	transition: all 0.25s ease;
+}
+
+.search-filter-btn:hover {
+	background: #e7ecee;
+	transform: translateX(4px);
+}
+
+/* --- Active state (Blue tab) --- */
+.search-filter-btn.active {
+	background: #01b4e4 !important;
+	border-color: #01b4e4 !important;
+	color: white !important;
+	box-shadow: 0 2px 8px rgba(1, 180, 228, 0.4);
+	transform: translateX(6px);
+}
+
+/* --- Result card --- */
+.search-card {
+	display: flex;
+	gap: 1rem;
+	background: #f7f7f7;
+	padding: 1rem;
+	border-radius: 8px;
+	transition: 0.2s ease;
+	cursor: pointer;
+	border: 1px solid #e3e3e3;
+}
+
+.search-card:hover {
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	transform: translateY(-3px);
+}
+
+.search-card-img {
+	width: 150px;
+	height: 225px;
+	border-radius: 6px;
+	object-fit: cover;
+}
+
+/* --- Modern SVG handling inside SearchCard --- */
+.svg-img {
+	object-fit: contain !important;
+	box-sizing: border-box;
+	background: #f5f5f5;
+	padding: 20px;
+	border: 1px solid #ddd;
+}
+
+/* --- Pagination --- */
+.pagination {
+	display: flex;
+	gap: 0.5rem;
+	margin-top: 2rem;
+	align-items: center;
+}
+
+.pagination button {
+	padding: 0.4rem 0.8rem;
+	border-radius: 6px;
+	border: 1px solid #bbb;
+	cursor: pointer;
+	background: #fff;
+}
+
+.pagination button:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}

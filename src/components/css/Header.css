@@ -1,20 +1,19 @@
-/* Basic dark header with spacing and hover effect */
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background-color: #0d253f;
-  color: #fff;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem 2rem;
+	background-color: #0d253f;
+	color: #fff;
 }
 
 .nav a {
-  margin-left: 1rem;
-  text-decoration: none;
-  color: #fff;
-  font-weight: 500;
+	margin-left: 1rem;
+	text-decoration: none;
+	color: #fff;
+	font-weight: 500;
 }
 
 .nav a:hover {
-  text-decoration: underline;
+	text-decoration: underline;
 }

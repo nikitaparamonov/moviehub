@@ -1,0 +1,63 @@
+.search-banner {
+	position: relative;
+	background-image: url('https://shotdeck.com/assets/images/stills/LOCBE91L.jpg');
+	background-size: cover;
+	background-position: center;
+	padding: 4rem 2rem;
+	color: white;
+}
+
+.search-banner .overlay {
+	background: rgba(0, 0, 0, 0.6);
+	padding: 2rem;
+	border-radius: 8px;
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+.search-title {
+	font-size: 2.5rem;
+	margin-bottom: 0.5rem;
+}
+
+.search-subtitle {
+	font-size: 1.2rem;
+	margin-bottom: 2rem;
+}
+
+.search-form {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.search-input {
+	flex: 1;
+	padding: 0.75rem;
+	border: none;
+	border-radius: 4px;
+	font-size: 1rem;
+}
+
+.search-button {
+	padding: 0.75rem 1.5rem;
+	border: none;
+	border-radius: 4px;
+	background-color: #ff6b01;
+	color: white;
+	font-size: 1rem;
+	cursor: pointer;
+}
+
+.search-status,
+.search-error {
+	margin-top: 1rem;
+}
+
+.search-results {
+	margin-top: 2rem;
+}
+
+.search-item {
+	padding: 0.5rem 0;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}

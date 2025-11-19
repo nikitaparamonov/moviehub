@@ -1,9 +1,17 @@
 import React from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
+import SearchPage from './pages/SearchPage'
 
-// Root component
 const App: React.FC = () => {
-	return <Home />
+	return (
+		<Router>
+			<Routes>
+				<Route path="/" element={<Home />} />
+				<Route path="/search" element={<SearchPage />} />
+			</Routes>
+		</Router>
+	)
 }
 
 export default App

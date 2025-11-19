@@ -1,7 +1,6 @@
 import React from 'react'
 import './css/Header.css'
 
-// Header with navigation links
 const Header: React.FC = () => {
 	return (
 		<header className="header">
