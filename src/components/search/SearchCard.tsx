@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import './../css/Search.css'
 import { SearchResult, MovieTV, Movie, TV, Person } from '../../api/tmdb'
 import NoImageIcon from '../icons/NoImageIcon.svg'
@@ -36,12 +37,20 @@ const getReleaseDate = (item: MovieTV): string | undefined => {
   return undefined
 }
 
+const getLink = (item: SearchResult): string | undefined => {
+  if (isPerson(item)) return `/actor/${item.id}`
+  if (isMovie(item)) return `/movie/${item.id}`
+  if (isTV(item)) return `/tv/${item.id}`
+  return undefined
+}
+
 
 const SearchCard: React.FC<Props> = ({ item }) => {
   const img = getImage(item)
   const title = getTitle(item)
+  const link = getLink(item)
 
-  return (
+  const content = (
     <div className="search-card">
       {/* apply svg-img class if using fallback SVG */}
       <img
@@ -79,6 +88,9 @@ const SearchCard: React.FC<Props> = ({ item }) => {
       </div>
     </div>
   )
+
+  // Wrap in Link if link exists
+  return link ? <Link to={link} className="search-card-link">{content}</Link> : content
 }
 
 export default SearchCard

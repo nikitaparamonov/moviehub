@@ -7,6 +7,8 @@ import SearchFilter, { FilterType } from '../components/search/SearchFilter'
 import SearchCard from '../components/search/SearchCard'
 import Pagination from '../components/search/Pagination'
 import '../components/css/Search.css'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 const LOCAL_PAGE_SIZE = 10 // Items per page for filtered results
 
@@ -66,33 +68,38 @@ const SearchPage: React.FC = () => {
 	}, [filteredResults, localPage])
 
 	return (
-		<PageContainer>
-			<SearchFilter active={filter} onChange={setFilter} />
+		<>
+			<Header />
+			<PageContainer>
+				<SearchFilter active={filter} onChange={setFilter} />
 
-			<main className="search-main">
-				<h2>
-					Results for: <span className="highlight">{query}</span>
-				</h2>
+				<main className="search-main">
+					<h2>
+						Results for: <span className="highlight">{query}</span>
+					</h2>
 
-				{loading ? (
-					<p className="loading-text">Loading...</p>
-				) : error ? (
-					<p className="error-text">{error}</p>
-				) : pagedResults.length === 0 ? (
-					<p className="no-results-text">No results found.</p>
-				) : (
-					<div className="search-results" aria-live="polite">
-						{pagedResults.map((item) => (
-							<SearchCard key={`${item.media_type}-${item.id}`} item={item} />
-						))}
-					</div>
-				)}
+					{loading ? (
+						<p className="loading-text">Loading...</p>
+					) : error ? (
+						<p className="error-text">{error}</p>
+					) : pagedResults.length === 0 ? (
+						<p className="no-results-text">No results found.</p>
+					) : (
+						<div className="search-results" aria-live="polite">
+							{pagedResults.map((item) => (
+								<SearchCard key={`${item.media_type}-${item.id}`} item={item} />
+							))}
+						</div>
+					)}
 
-				{!loading && filteredTotalPages > 1 && (
-					<Pagination page={localPage} totalPages={filteredTotalPages} onChange={setLocalPage} />
-				)}
-			</main>
-		</PageContainer>
+					{!loading && filteredTotalPages > 1 && (
+						<Pagination page={localPage} totalPages={filteredTotalPages} onChange={setLocalPage} />
+					)}
+				</main>
+			</PageContainer>
+			<Footer />
+		</>
+
 	)
 }
 

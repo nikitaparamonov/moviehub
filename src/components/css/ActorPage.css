@@ -1,0 +1,186 @@
+/* --- Page Layout --- */
+.actor-page {
+    display: flex;                
+    width: 80%;                   
+    margin: 0 auto;               
+    padding: 50px 30px 0;         
+}
+
+.actor-page h3 {
+    font-weight: 600;
+    font-size: 1.3em;
+    margin-bottom: 8px;
+}
+
+/* --- Loading & Error messages --- */
+.loading,
+.error {
+    text-align: center;
+    font-size: 18px;
+    padding: 20px;
+}
+
+/* --- Left Section --- */
+.actor-left-section {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;             
+    width: 300px;
+}
+
+.actor-photo {
+    width: 300px;
+    border-radius: 12px;          
+    object-fit: cover;            
+}
+
+/* --- Personal Info --- */
+.actor-info {
+    margin-top: 30px;
+    flex: 1;
+}
+
+/* Each info item uses vertical alignment (label on top) */
+.actor-info p {
+    display: flex;
+    flex-direction: column;
+}
+
+.actor-info-knownAs {
+    margin: 8px 0;
+}
+
+/* --- Right Section --- */
+.actor-content {
+    margin-left: 30px;      
+}
+
+/* --- Actor Name --- */
+.actor-name {
+    font-size: 2rem;
+    margin: 0;
+}
+
+/* --- Biography --- */
+.biography {
+    margin-top: 20px;
+}
+
+.biography-title {
+    margin-top: 0;
+}
+
+/* --- Known For --- */
+.known-for {
+    margin-top: 20px;
+}
+
+.known-for-title {
+    margin-top: 0;
+}
+
+.known-for-row {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;             
+    padding-bottom: 10px;
+}
+
+.known-for-card {
+    flex: 0 0 auto;               
+    width: 150px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #303030;
+}
+
+.known-for-card img {
+    width: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* --- Filmography Tabs --- */
+.filmography-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.filmography-tabs button {
+    padding: 6px 12px;
+    cursor: pointer;
+    background: #eee;
+    border: none;
+    border-radius: 4px;
+}
+
+.filmography-tabs button.active {
+    background: #0077ff;
+    color: white;
+}
+
+/* --- Filmography List --- */
+.credits-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;              
+    gap: 15px;                   
+}
+
+.credit-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    width: 300px;                 
+    background: #f7f7f7;
+    cursor: pointer;
+    border: 1px solid #e3e3e3;
+    border-radius: 8px;
+    padding: 6px;  
+}
+
+.credit-item img {
+    width: 100px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Placeholder when no image exists */
+.credit-no-image {
+    width: 100px;
+    height: 150px;
+    background: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+}
+
+.credit-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;                 
+}
+
+.credit-info p {
+    margin: 0;
+}
+
+.credit-title {
+    font-weight: bold;
+}
+
+.credit-role {
+    font-style: italic;
+    font-size: 14px;
+    color: #555;
+}
+
+.credit-year {
+    font-size: 13px;
+    color: #555;
+}

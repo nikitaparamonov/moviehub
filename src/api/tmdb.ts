@@ -42,6 +42,41 @@ export interface TV {
 export type MovieTV = Movie | TV
 export type SearchResult = MovieTV | Person
 
+export interface PersonDetails {
+    id: number
+    name: string
+    biography: string
+    birthday?: string | null
+    deathday?: string | null
+    place_of_birth?: string | null
+    profile_path?: string | null
+    also_known_as?: string[]
+    known_for_department?: string
+    popularity: number
+	gender: number
+}
+
+export interface Credit {
+    id: number
+    media_type: 'movie' | 'tv'
+    title?: string
+    name?: string
+    poster_path?: string | null
+    character?: string
+    job?: string
+    release_date?: string
+    first_air_date?: string
+	overview?: string
+	popularity: number
+	vote_average: number
+	vote_count: number
+}
+
+export interface CombinedCredits {
+    cast: Credit[]
+    crew: Credit[]
+}
+
 // ===========================
 // TMDB fetch wrapper
 // ===========================
@@ -87,4 +122,20 @@ export const fetchSearchMulti = async (query: string, page: number = 1) => {
 		{ query, page },
 	)
 	return data
+}
+
+// Fetch a person's details
+export const fetchPersonDetails = async (personId: number) => {
+    const data = await fetchTMDB<PersonDetails>(`/person/${personId}`, {
+        language: 'en-US'
+    })
+    return data
+}
+
+// Fetch combined credits (movies + TV)
+export const fetchPersonCombinedCredits = async (personId: number) => {
+    const data = await fetchTMDB<CombinedCredits>(`/person/${personId}/combined_credits`, {
+        language: 'en-US'
+    })
+    return data
 }
