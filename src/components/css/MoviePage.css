@@ -1,0 +1,98 @@
+.movie-page {
+	width: 80%;
+	margin: 0 auto;
+	padding: 50px 30px 0;
+}
+.loading,
+.error {
+	text-align: center;
+	font-size: 18px;
+	padding: 20px;
+}
+
+.movie-info {
+	display: flex;
+	gap: 30px;
+	margin-bottom: 40px;
+}
+.movie-poster {
+	width: 300px;
+	border-radius: 12px;
+	object-fit: cover;
+}
+.movie-details h2 {
+	font-size: 2rem;
+	margin: 0 0 10px 0;
+}
+.movie-tagline {
+	font-style: italic;
+	color: #555;
+}
+.movie-overview {
+	margin-top: 20px;
+	line-height: 1.5;
+}
+
+/* Cast & Crew */
+.cast-grid,
+.crew-grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 15px;
+}
+.cast-card,
+.crew-card {
+	width: 120px;
+	text-align: center;
+	text-decoration: none;
+	color: black;
+}
+.cast-card img,
+.crew-card img {
+	width: 100%;
+	border-radius: 8px;
+}
+.cast-name,
+.crew-name {
+	font-weight: 600;
+	margin: 5px 0 0 0;
+}
+.cast-role,
+.crew-job {
+	font-size: 12px;
+	color: #555;
+}
+
+/* Gallery */
+.gallery-grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+.gallery-grid img {
+	width: 200px;
+	border-radius: 8px;
+}
+
+/* Similar Movies */
+.similar-grid {
+	display: flex;
+	overflow-x: auto;
+	gap: 10px;
+	padding-bottom: 10px;
+}
+.similar-card {
+	flex: 0 0 auto;
+	width: 150px;
+	text-align: center;
+	color: inherit;
+	text-decoration: none;
+}
+.similar-card img {
+	width: 100%;
+	border-radius: 8px;
+}
+.similar-card p {
+	margin: 5px 0 0 0;
+	font-size: 14px;
+}

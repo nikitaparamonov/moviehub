@@ -5,7 +5,7 @@
 export const BASE_URL = 'https://api.themoviedb.org/3'
 export const API_KEY = process.env.REACT_APP_TMDB_API_KEY
 if (!API_KEY) {
-    throw new Error('REACT_APP_TMDB_API_KEY is not defined in your .env file')
+	throw new Error('REACT_APP_TMDB_API_KEY is not defined in your .env file')
 }
 
 // ===========================
@@ -43,38 +43,147 @@ export type MovieTV = Movie | TV
 export type SearchResult = MovieTV | Person
 
 export interface PersonDetails {
-    id: number
-    name: string
-    biography: string
-    birthday?: string | null
-    deathday?: string | null
-    place_of_birth?: string | null
-    profile_path?: string | null
-    also_known_as?: string[]
-    known_for_department?: string
-    popularity: number
+	id: number
+	name: string
+	biography: string
+	birthday?: string | null
+	deathday?: string | null
+	place_of_birth?: string | null
+	profile_path?: string | null
+	also_known_as?: string[]
+	known_for_department?: string
+	popularity: number
 	gender: number
 }
 
-export interface Credit {
-    id: number
-    media_type: 'movie' | 'tv'
-    title?: string
-    name?: string
-    poster_path?: string | null
-    character?: string
-    job?: string
-    release_date?: string
-    first_air_date?: string
+export interface PersonCredit {
+	id: number
+	media_type: 'movie' | 'tv'
+	title?: string
+	name?: string
+	poster_path?: string | null
+	character?: string
+	job?: string
+	release_date?: string
+	first_air_date?: string
 	overview?: string
 	popularity: number
 	vote_average: number
 	vote_count: number
 }
 
-export interface CombinedCredits {
-    cast: Credit[]
-    crew: Credit[]
+export interface CombinedPersonCredits {
+	cast: PersonCredit[]
+	crew: PersonCredit[]
+}
+
+export interface MovieDetails {
+	id: number
+	title: string
+	overview?: string
+	poster_path?: string | null
+	backdrop_path?: string | null
+	release_date?: string
+	runtime?: number
+	genres: { id: number; name: string }[]
+	tagline?: string
+	vote_average?: number
+	vote_count?: number
+	popularity?: number
+}
+
+export interface MovieCastCredit {
+	id: number
+	name: string
+	character?: string
+	profile_path?: string | null
+	cast_id?: number
+	order?: number
+}
+
+export interface MovieCrewCredit {
+	id: number
+	name: string
+	job?: string
+	profile_path?: string | null
+	department?: string
+}
+
+export interface MovieCredits {
+	id: number
+	cast: MovieCastCredit[]
+	crew: MovieCrewCredit[]
+}
+
+export interface Image {
+	file_path: string
+	width: number
+	height: number
+}
+
+export interface MovieImages {
+	id: number
+	backdrops: Image[]
+	posters: Image[]
+}
+
+export interface MovieSummary {
+	id: number
+	title: string
+	poster_path?: string | null
+	release_date?: string
+}
+
+export interface TVDetails {
+	id: number
+	name: string
+	overview?: string
+	poster_path?: string | null
+	backdrop_path?: string | null
+	first_air_date?: string
+	last_air_date?: string
+	number_of_seasons?: number
+	number_of_episodes?: number
+	genres: { id: number; name: string }[]
+	vote_average?: number
+	vote_count?: number
+	popularity?: number
+	tagline?: string
+}
+
+export interface TVCastCredit {
+	id: number
+	name: string
+	character?: string
+	profile_path?: string | null
+	order?: number
+}
+
+export interface TVCrewCredit {
+	id: number
+	name: string
+	job?: string
+	department?: string
+	profile_path?: string | null
+}
+
+export interface TVCredits {
+	id: number
+	cast: TVCastCredit[]
+	crew: TVCrewCredit[]
+}
+
+export interface TVImages {
+	id: number
+	backdrops: Image[]
+	posters: Image[]
+}
+
+export interface TVSummary {
+	id: number
+	name: string
+	poster_path?: string | null
+	first_air_date?: string
 }
 
 // ===========================
@@ -126,16 +235,40 @@ export const fetchSearchMulti = async (query: string, page: number = 1) => {
 
 // Fetch a person's details
 export const fetchPersonDetails = async (personId: number) => {
-    const data = await fetchTMDB<PersonDetails>(`/person/${personId}`, {
-        language: 'en-US'
-    })
-    return data
+	const data = await fetchTMDB<PersonDetails>(`/person/${personId}`, {
+		language: 'en-US',
+	})
+	return data
 }
 
 // Fetch combined credits (movies + TV)
 export const fetchPersonCombinedCredits = async (personId: number) => {
-    const data = await fetchTMDB<CombinedCredits>(`/person/${personId}/combined_credits`, {
-        language: 'en-US'
-    })
-    return data
+	const data = await fetchTMDB<CombinedPersonCredits>(`/person/${personId}/combined_credits`, {
+		language: 'en-US',
+	})
+	return data
+}
+
+// Universal fetch functions for movies & TV
+export const fetchMediaDetails = async (type: 'movie' | 'tv', id: number) => {
+	const data = await fetchTMDB<MovieDetails | TVDetails>(`/${type}/${id}`, { language: 'en-US' })
+	return data
+}
+
+export const fetchMediaCredits = async (type: 'movie' | 'tv', id: number) => {
+	const data = await fetchTMDB<MovieCredits | TVCredits>(`/${type}/${id}/credits`)
+	return data
+}
+
+export const fetchMediaImages = async (type: 'movie' | 'tv', id: number) => {
+	const data = await fetchTMDB<MovieImages | TVImages>(`/${type}/${id}/images`)
+	return data.backdrops.concat(data.posters)
+}
+
+export const fetchSimilarMedia = async (type: 'movie' | 'tv', id: number) => {
+	const data = await fetchTMDB<{ results: MovieSummary[] | TVSummary[] }>(`/${type}/${id}/similar`, {
+		language: 'en-US',
+		page: 1,
+	})
+	return data.results
 }

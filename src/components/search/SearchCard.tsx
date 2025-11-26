@@ -38,7 +38,7 @@ const getReleaseDate = (item: MovieTV): string | undefined => {
 }
 
 const getLink = (item: SearchResult): string | undefined => {
-  if (isPerson(item)) return `/actor/${item.id}`
+  if (isPerson(item)) return `/person/${item.id}`
   if (isMovie(item)) return `/movie/${item.id}`
   if (isTV(item)) return `/tv/${item.id}`
   return undefined

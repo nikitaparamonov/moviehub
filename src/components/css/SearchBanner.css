@@ -1,6 +1,6 @@
 .search-banner {
 	position: relative;
-	background-image: url('https://shotdeck.com/assets/images/stills/LOCBE91L.jpg');
+	background-image: url('../images/searchBannerBackground.jpg');
 	background-size: cover;
 	background-position: center;
 	padding: 4rem 2rem;

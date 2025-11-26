@@ -1,12 +1,12 @@
 /* --- Page Layout --- */
-.actor-page {
+.person-page {
     display: flex;                
     width: 80%;                   
     margin: 0 auto;               
     padding: 50px 30px 0;         
 }
 
-.actor-page h3 {
+.person-page h3 {
     font-weight: 600;
     font-size: 1.3em;
     margin-bottom: 8px;
@@ -21,42 +21,42 @@
 }
 
 /* --- Left Section --- */
-.actor-left-section {
+.person-left-section {
     display: flex;
     flex-direction: column;
     min-width: 300px;             
     width: 300px;
 }
 
-.actor-photo {
+.person-photo {
     width: 300px;
     border-radius: 12px;          
     object-fit: cover;            
 }
 
 /* --- Personal Info --- */
-.actor-info {
+.person-info {
     margin-top: 30px;
     flex: 1;
 }
 
 /* Each info item uses vertical alignment (label on top) */
-.actor-info p {
+.person-info p {
     display: flex;
     flex-direction: column;
 }
 
-.actor-info-knownAs {
+.person-info-knownAs {
     margin: 8px 0;
 }
 
 /* --- Right Section --- */
-.actor-content {
+.person-content {
     margin-left: 30px;      
 }
 
 /* --- Actor Name --- */
-.actor-name {
+.person-name {
     font-size: 2rem;
     margin: 0;
 }
@@ -68,6 +68,20 @@
 
 .biography-title {
     margin-top: 0;
+}
+
+.biography-readmore {
+    background: none;
+    border: none;
+    color: #0077ff;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0;
+}
+
+.biography-readmore:hover {
+    text-decoration: underline;
 }
 
 /* --- Known For --- */
@@ -93,6 +107,7 @@
     font-size: 14px;
     font-weight: 500;
     color: #303030;
+    text-decoration: none;
 }
 
 .known-for-card img {
@@ -105,7 +120,6 @@
 .filmography-tabs {
     display: flex;
     gap: 10px;
-    margin-bottom: 15px;
 }
 
 .filmography-tabs button {
@@ -122,65 +136,63 @@
 }
 
 /* --- Filmography List --- */
-.credits-list {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;              
-    gap: 15px;                   
+.filmography-grouped {
+    margin-top: 20px;
+    border: 1px solid rgb(199, 199, 199);
+    border-radius: 5px;
 }
 
-.credit-item {
+.filmography-year-block {
     display: flex;
-    gap: 10px;
     align-items: flex-start;
-    width: 300px;                 
-    background: #f7f7f7;
-    cursor: pointer;
-    border: 1px solid #e3e3e3;
-    border-radius: 8px;
-    padding: 6px;  
+    gap: 25px;
+    border-top: 1px solid rgb(199, 199, 199);
 }
 
-.credit-item img {
-    width: 100px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 4px;
+.filmography-year-block:first-child {
+    border-top: none;
 }
 
-/* Placeholder when no image exists */
-.credit-no-image {
-    width: 100px;
-    height: 150px;
-    background: #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
+/* Year column */
+.filmography-year {
+    min-width: 70px;
+    font-weight: 600;
+    text-align: center;
+    margin: auto;
 }
 
-.credit-info {
+/* Right column with list of movies */
+.filmography-items {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    height: 100%;                 
+    flex: 1;
 }
 
-.credit-info p {
+/* A single row (movie) */
+.filmography-row {
+    margin: 10px 0;
+}
+
+.filmography-title-role {
+    display: flex;
+    flex-direction: column;
+}
+
+.filmography-title-text {
+    font-size: 18px;
+    font-weight: 500;
     margin: 0;
 }
 
-.credit-title {
-    font-weight: bold;
-}
-
-.credit-role {
-    font-style: italic;
+.filmography-role-text {
+    margin: 5px 0 0 0;
     font-size: 14px;
-    color: #555;
 }
 
-.credit-year {
-    font-size: 13px;
-    color: #555;
+/* Empty state */
+.filmography-empty {
+    padding: 20px 0;
+    color: #bbb;
+    font-size: 16px;
+    text-align: center;
 }
