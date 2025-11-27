@@ -186,6 +186,23 @@ export interface TVSummary {
 	first_air_date?: string
 }
 
+export interface ReleaseDateInfo {
+	certification: string
+	iso_639_1?: string
+	release_date: string
+	type: number
+	note?: string
+}
+
+export interface CountryReleaseDates {
+	iso_3166_1: string
+	release_dates: ReleaseDateInfo[]
+}
+
+export interface MovieReleaseDatesResponse {
+	results: CountryReleaseDates[]
+}
+
 // ===========================
 // TMDB fetch wrapper
 // ===========================
@@ -270,5 +287,11 @@ export const fetchSimilarMedia = async (type: 'movie' | 'tv', id: number) => {
 		language: 'en-US',
 		page: 1,
 	})
+	return data.results
+}
+
+// Fetch release dates (including certifications) for a movie
+export const fetchMovieReleaseDates = async (movieId: number): Promise<CountryReleaseDates[]> => {
+	const data = await fetchTMDB<MovieReleaseDatesResponse>(`/movie/${movieId}/release_dates`)
 	return data.results
 }
