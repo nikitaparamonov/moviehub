@@ -90,6 +90,11 @@ export interface MovieDetails {
 	vote_average?: number
 	vote_count?: number
 	popularity?: number
+	budget?: number
+	revenue?: number
+	status?: string
+	original_language?: string
+	homepage?: string
 }
 
 export interface MovieCastCredit {
@@ -121,10 +126,29 @@ export interface Image {
 	height: number
 }
 
-export interface MovieImages {
+export interface MediaImages {
 	id: number
 	backdrops: Image[]
 	posters: Image[]
+}
+
+export interface Video {
+	key: string
+	name: string
+	site: string
+	type: string
+}
+
+export interface MediaVideos {
+	id: number
+	results: Video[]
+}
+
+export interface MovieMedia {
+	id: number
+	backdrops: Image[]
+	posters: Image[]
+	videos: Video[]
 }
 
 export interface MovieSummary {
@@ -149,6 +173,11 @@ export interface TVDetails {
 	vote_count?: number
 	popularity?: number
 	tagline?: string
+	budget?: number
+	revenue?: number
+	status?: string
+	original_language?: string
+	homepage?: string
 }
 
 export interface TVCastCredit {
@@ -173,12 +202,6 @@ export interface TVCredits {
 	crew: TVCrewCredit[]
 }
 
-export interface TVImages {
-	id: number
-	backdrops: Image[]
-	posters: Image[]
-}
-
 export interface TVSummary {
 	id: number
 	name: string
@@ -201,6 +224,31 @@ export interface CountryReleaseDates {
 
 export interface MovieReleaseDatesResponse {
 	results: CountryReleaseDates[]
+}
+
+export interface ExternalIDsResponse {
+	imdb_id: string | null
+	facebook_id: string | null
+	instagram_id: string | null
+	twitter_id: string | null
+	wikidata_id: string | null
+	youtube_id?: string | null
+
+	// TV-specific fields (TMDB returns them even if null)
+	freebase_mid?: string | null
+	freebase_id?: string | null
+	tvdb_id?: number | null
+	tvrage_id?: number | null
+}
+
+export interface Keyword {
+	id: number
+	name: string
+}
+
+export interface MediaKeywordsResponse {
+	keywords?: Keyword[] // for movies
+	results?: Keyword[] // for TV
 }
 
 // ===========================
@@ -278,8 +326,27 @@ export const fetchMediaCredits = async (type: 'movie' | 'tv', id: number) => {
 }
 
 export const fetchMediaImages = async (type: 'movie' | 'tv', id: number) => {
-	const data = await fetchTMDB<MovieImages | TVImages>(`/${type}/${id}/images`)
-	return data.backdrops.concat(data.posters)
+	const data = await fetchTMDB<MediaImages>(`/${type}/${id}/images`)
+	return data
+}
+
+export const fetchMediaVideos = async (type: 'movie' | 'tv', id: number) => {
+	const data = await fetchTMDB<MediaVideos>(`/${type}/${id}/videos`)
+	return {
+		id: data.id,
+		videos: data.results,
+	}
+}
+
+export const fetchMedia = async (type: 'movie' | 'tv', id: number): Promise<MovieMedia> => {
+	const [images, videosData] = await Promise.all([fetchMediaImages(type, id), fetchMediaVideos(type, id)])
+
+	return {
+		id: images.id,
+		backdrops: images.backdrops,
+		posters: images.posters,
+		videos: videosData.videos,
+	}
 }
 
 export const fetchSimilarMedia = async (type: 'movie' | 'tv', id: number) => {
@@ -294,4 +361,16 @@ export const fetchSimilarMedia = async (type: 'movie' | 'tv', id: number) => {
 export const fetchMovieReleaseDates = async (movieId: number): Promise<CountryReleaseDates[]> => {
 	const data = await fetchTMDB<MovieReleaseDatesResponse>(`/movie/${movieId}/release_dates`)
 	return data.results
+}
+
+// Fetch external IDs (social networks & other external links)
+export const fetchMediaExternalIds = async (type: 'movie' | 'tv', id: number) => {
+	const data = await fetchTMDB<ExternalIDsResponse>(`/${type}/${id}/external_ids`)
+	return data
+}
+
+// Fetch keywords for movies and TV and always return a flat array of Keyword[].
+export const fetchKeywords = async (type: 'movie' | 'tv', id: number): Promise<Keyword[]> => {
+	const data = await fetchTMDB<MediaKeywordsResponse>(`/${type}/${id}/keywords`)
+	return data.keywords ?? data.results ?? []
 }

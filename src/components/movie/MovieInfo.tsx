@@ -3,6 +3,7 @@ import type { MovieCrewCredit, MovieDetails } from '../../api/tmdb'
 import { formatRuntime, getYear } from '../../utils/date'
 import { useDominantColor } from '../hooks/useDominantColor'
 import '../css/MoviePage.css'
+import { Link } from 'react-router-dom'
 
 interface Props {
 	movie: MovieDetails
@@ -22,11 +23,11 @@ const MovieInfo: React.FC<Props> = ({ movie, crew, certification, releaseDate })
 
 	// Group crew members by id and merge all important jobs
 	const groupedCrew = Object.values(
-		crew.reduce<Record<number, { name: string; jobs: string[] }>>((acc, person) => {
+		crew.reduce<Record<number, { id: number, name: string; jobs: string[] }>>((acc, person) => {
 			if (!person.job || !importantJobs.includes(person.job)) return acc
 
 			if (!acc[person.id]) {
-				acc[person.id] = { name: person.name, jobs: [] }
+				acc[person.id] = { id: person.id, name: person.name, jobs: [] }
 			}
 
 			// Avoid duplicates and keep only important jobs
@@ -59,7 +60,7 @@ const MovieInfo: React.FC<Props> = ({ movie, crew, certification, releaseDate })
 				} as React.CSSProperties
 			}
 		>
-			<div className="movie-info">
+			<div className="movie-info flex gap-30">
 				{movie.poster_path && (
 					<img
 						src={`https://image.tmdb.org/t/p/w400${movie.poster_path}`}
@@ -69,14 +70,14 @@ const MovieInfo: React.FC<Props> = ({ movie, crew, certification, releaseDate })
 					/>
 				)}
 
-				<div className="movie-details">
+				<div>
 					<div className="movie-title-block">
 						<h2 className="movie-title">
 							{movie.title} <span className="movie-year">({getYear(movie.release_date)})</span>
 						</h2>
-						<div className="movie-facts">
-							<span className="facts-certification">{certification}</span>
-							<span className="facts-release-date">{releaseDate}</span>
+						<div className="movie-facts flex">
+							{certification && <span className="facts-certification">{certification}</span>}
+							{releaseDate && <span className="facts-release-date">{releaseDate}</span>}
 							<span className="facts-genres">{movie.genres.map((g) => g.name).join(', ')}</span>
 							<span className="facts-runtime">{formatRuntime(movie.runtime)}</span>
 						</div>
@@ -86,10 +87,10 @@ const MovieInfo: React.FC<Props> = ({ movie, crew, certification, releaseDate })
 						{movie.tagline && <span className="movie-tagline">{movie.tagline}</span>}
 						<h3 className="overview-title">Overview</h3>
 						<div>{movie.overview && <p className="movie-overview">{movie.overview}</p>}</div>
-						<ol className="movie-crew">
+						<ol className="movie-header-crew flex">
 							{groupedCrew.map((person) => (
 								<li key={person.name} className="crew-person">
-									<p className='crew-person-name'>{person.name}</p>
+									<Link to={`/person/${person.id}`} className='crew-person-name'>{person.name}</Link>
 									<p className="crew-person-job">{person.jobs.join(', ')}</p>
 								</li>
 							))}

@@ -1,6 +1,7 @@
 /* --- Page Layout --- */
 .person-page {
-    display: flex;                
+    display: flex;
+    min-width: 1400px;                
     width: 80%;                   
     margin: 0 auto;               
     padding: 50px 30px 0;         
@@ -136,6 +137,11 @@
 }
 
 /* --- Filmography List --- */
+.filmography {
+    min-width: 500px;
+    width: 100%;
+}
+
 .filmography-grouped {
     margin-top: 20px;
     border: 1px solid rgb(199, 199, 199);
