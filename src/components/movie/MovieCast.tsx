@@ -1,10 +1,10 @@
 import React from 'react'
-import type { MovieCastCredit } from '../../api/tmdb'
+import type { CastCredit } from '../../api/tmdb'
 import { Link } from 'react-router-dom'
 import { ReactComponent as NoImageIcon } from '../icons/NoImageIcon.svg'
 
 interface MovieCastProps {
-	cast: MovieCastCredit[]
+	cast: CastCredit[]
 }
 
 const MovieCast: React.FC<MovieCastProps> = ({ cast }) => {

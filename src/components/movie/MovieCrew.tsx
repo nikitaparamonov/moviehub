@@ -1,9 +1,9 @@
 import React from 'react'
-import type { MovieCrewCredit } from '../../api/tmdb'
+import type { CrewCredit } from '../../api/tmdb'
 import { Link } from 'react-router-dom'
 
 interface MovieCrewProps {
-	crew: MovieCrewCredit[]
+	crew: CrewCredit[]
 }
 
 const MovieCrew: React.FC<MovieCrewProps> = ({ crew }) => {

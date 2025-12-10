@@ -1,16 +1,16 @@
 import React from 'react'
 import MovieSection from '../components/MovieSection'
-import { Movie } from '../api/tmdb'
+import { MovieDetails } from '../api/tmdb'
 
 interface MovieListProps {
 	title: string
-	movies: Movie[] | null
+	movies: MovieDetails[] | null
 	loading: boolean
 }
 
 const MovieList: React.FC<MovieListProps> = ({ title, movies, loading }) => {
 	// Format movies for MovieSection
-	const formatMovies = (movies: Movie[]) =>
+	const formatMovies = (movies: MovieDetails[]) =>
 		movies.map((m) => ({
 			id: m.id,
 			title: m.title,

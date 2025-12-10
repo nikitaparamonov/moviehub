@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { PersonCredit } from '../api/tmdb'
+import { CastCredit, CrewCredit } from '../api/tmdb'
 import { usePersonData } from '../components/hooks/usePersonData'
 import '../components/css/PersonPage.css'
 import Header from '../components/Header'
@@ -15,17 +15,19 @@ const PersonPage: React.FC = () => {
 	const personId = Number(id)
 
 	const { person, credits, loading, error } = usePersonData(personId)
-	const [actingCredits, setActingCredits] = useState<PersonCredit[]>([])
-	const [crewCredits, setCrewCredits] = useState<PersonCredit[]>([])
+	const [castCredits, setCastCredits] = useState<CastCredit[]>([])
+	const [crewCredits, setCrewCredits] = useState<CrewCredit[]>([])
 
 	useEffect(() => {
 		if (!credits.length) return
 
-        // Separate Acting/Crew credits
-		const acting = credits.filter((c) => c.character)
-		const crew = credits.filter((c) => c.job && !c.character)
+		const isCastCredit = (c: CastCredit | CrewCredit): c is CastCredit => 'character' in c
+		const isCrewCredit = (c: CastCredit | CrewCredit): c is CrewCredit => 'job' in c
 
-		setActingCredits(acting)
+		const acting = credits.filter(isCastCredit)
+		const crew = credits.filter(isCrewCredit)
+
+		setCastCredits(acting)
 		setCrewCredits(crew)
 	}, [credits])
 
@@ -48,10 +50,10 @@ const PersonPage: React.FC = () => {
 					<Biography person={person} />
 
 					{/* Known For */}
-					<KnownFor actingCredits={actingCredits} />
+					<KnownFor actingCredits={castCredits} />
 
 					{/* Filmography Tabs*/}
-					<Filmography actingCredits={actingCredits} crewCredits={crewCredits} />
+					<Filmography actingCredits={castCredits} crewCredits={crewCredits} />
 				</div>
 			</div>
 			<Footer />

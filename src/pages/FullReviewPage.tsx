@@ -41,7 +41,7 @@ const FullReviewPage: React.FC = () => {
 
 				<div className='flex-column'>
 					<h2>
-						<Link to={`/movie/${movieDetails.id}`} state={{ movieDetails }} className="full-review-title">
+						<Link to={`/movie/${movieDetails.id}`} className="full-review-title">
 							{movieTitle}
 						</Link>
                         <span className="full-review-title-year"> ({getYear(getMediaReleaseDate(movieDetails))})</span>

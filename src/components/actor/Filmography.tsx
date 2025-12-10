@@ -1,17 +1,17 @@
-import { useMemo, useState } from "react"
-import { PersonCredit } from "../../api/tmdb"
+import { useMemo, useState } from 'react'
+import { CastCredit, CrewCredit, MediaSummary } from '../../api/tmdb'
 
-interface PersonalInfoProps {
-    actingCredits: PersonCredit[]
-    crewCredits: PersonCredit[]
+interface FilmographyProps {
+	actingCredits: Array<CastCredit & Partial<MediaSummary<'movie' | 'tv'>>>
+	crewCredits: Array<CrewCredit & Partial<MediaSummary<'movie' | 'tv'>>>
 }
 
-const Filmography: React.FC<PersonalInfoProps> = ({actingCredits, crewCredits}) => {
+const Filmography: React.FC<FilmographyProps> = ({ actingCredits, crewCredits }) => {
 	const [activeTab, setActiveTab] = useState<'acting' | 'crew'>('acting')
 
 	// Helper function to parse a date string and return a timestamp
-	const parseTime = (c: PersonCredit) => {
-		const s = c.first_air_date || c.release_date || ''
+	const parseTime = (c: CastCredit | (CrewCredit & Partial<MediaSummary<'movie' | 'tv'>>)) => {
+		const s = (c as any).first_air_date || (c as any).release_date || ''
 		const t = s ? Date.parse(s) : 0
 		return Number.isFinite(t) ? t : 0
 	}
@@ -21,16 +21,12 @@ const Filmography: React.FC<PersonalInfoProps> = ({actingCredits, crewCredits}) 
 		const list = (activeTab === 'acting' ? actingCredits : crewCredits).slice()
 
 		// Sort credits descending by release/air date using parseTime
-		list.sort((a, b) => {
-			const tA = parseTime(a)
-			const tB = parseTime(b)
-			return tB - tA
-		})
+		list.sort((a, b) => parseTime(b) - parseTime(a))
 
 		// Group the sorted credits by year
-		const grouped: Record<string, PersonCredit[]> = {}
+		const grouped: Record<string, typeof list> = {}
 		for (const item of list) {
-			const year = (item.release_date || item.first_air_date || '').slice(0, 4)
+			const year = ((item as any).release_date || (item as any).first_air_date || '').slice(0, 4)
 			if (!grouped[year]) grouped[year] = []
 			grouped[year].push(item)
 		}
@@ -62,13 +58,20 @@ const Filmography: React.FC<PersonalInfoProps> = ({actingCredits, crewCredits}) 
 					<div key={year} className="filmography-year-block">
 						<div className="filmography-year">{year}</div>
 						<div className="filmography-items">
-							{filmographyByYear.grouped[year].map((c, index) => (
-								<div className="filmography-row" key={`${c.id}-${c.character ?? c.job ?? ''}-${index}`}>
-									<p className="filmography-title-text">{c.title || c.name}</p>
-									{c.character && <p className="filmography-role-text">as {c.character}</p>}
-									{!c.character && c.job && <p className="filmography-role-text">{c.job}</p>}
-								</div>
-							))}
+							{filmographyByYear.grouped[year].map((c, index) => {
+								const title = (c as any).title || (c as any).name || 'Untitled'
+								const role = (c as any).character || (c as any).job
+								return (
+									<div className="filmography-row" key={`${(c as any).id}-${role ?? ''}-${index}`}>
+										<p className="filmography-title-text">{title}</p>
+										{role && (
+											<p className="filmography-role-text">
+												{(c as any).character ? `as ${role}` : role}
+											</p>
+										)}
+									</div>
+								)
+							})}
 						</div>
 					</div>
 				))}
