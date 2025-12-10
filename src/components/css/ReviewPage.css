@@ -1,0 +1,85 @@
+.reviews-page {
+    width: 100%;
+}
+
+.reviews-list {
+    max-width: 1400px;
+    width: 100%;
+    margin: 20px 0;
+    padding: 0 40px;
+    gap: 20px;
+}
+
+.full-review-back-wrapper {
+    width: 100%;
+    background-color: rgb(239, 239, 239);
+}
+.full-review-back {
+    max-width: 1400px;
+    width: 100%;
+    padding: 0.75rem 40px;
+}
+.full-review-back h3 {
+    margin: 0;
+}
+.full-review-back-text {
+    color: #000;
+    font-weight: 400;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+.full-review-content {
+    max-width: 1400px;
+    width: 100%;
+    padding: 30px 40px;
+}
+.full-review-sidebar {
+    align-self: flex-start;
+    width: 220px;
+    padding-right: 1rem;
+    flex-shrink: 0;
+}
+.full-review-poster {
+    width: 100%;
+    height: auto;
+}
+.full-review-content h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    line-height: 1.5rem;
+}
+.full-review-title {
+    margin: 0;
+    color: #000;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+
+}
+.full-review-title:hover {
+    opacity: 0.7;
+}
+.full-review-title-year {
+    color: #999;
+    font-weight: 700;
+}
+.full-review-author {
+    align-items: flex-end;
+}
+.full-review-rating {
+    font-size: 1.2em;
+    margin-right: 30px;
+}
+.full-review-date {
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: 500;
+}
+.full-review-content-text {
+    margin-top: 30px;
+}
+.full-review-content-text p {
+    margin: 0;
+}
+.full-review-content-text p + p {
+    margin-top: 10px;
+}

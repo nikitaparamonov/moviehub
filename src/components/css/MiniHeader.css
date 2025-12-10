@@ -1,0 +1,37 @@
+.mini-header {
+    width: 100%;
+    background: linear-gradient(to bottom right, rgba(31.5, 10.5, 10.5, 1), rgba(31.5, 10.5, 10.5, 0.84));
+    color: var(--text-light);
+}
+.mini-header-wrapper {
+    max-width: 1400px;
+    width: 100%;
+    padding: 15px 40px;
+}
+.mini-header-poster {
+    min-width: 58px;
+    width: 58px;
+    height: 87px;
+    margin-right: 20px;
+    border-radius: 4px;
+}
+.mini-header-title {
+    font-size: 2.2rem;
+    margin: 0;
+    color: white;
+    font-weight: 700;
+}
+.mini-header-title span {
+    color: var(--text-light);
+    font-weight: 400;
+}
+.mini-header-back {
+    margin: 0;
+    font-size: 1.1em;
+    font-weight: 600;
+}
+.mini-header-back-text {
+    color: var(--text-light);
+    text-decoration: none;
+    font-weight: 600;
+}

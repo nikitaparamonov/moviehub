@@ -17,11 +17,11 @@ const SearchBanner: React.FC = () => {
 		<div className="search-banner">
 			<div className="overlay">
 				<h1 className="search-title">Welcome to MovieHub</h1>
-				<p className="search-subtitle">Explore movies, TV shows and stars</p>
+				<p className="search-subtitle">Millions of movies, TV shows and people to discover. Explore now.</p>
 				<form onSubmit={handleSubmit} className="search-form">
 					<input
 						type="text"
-						placeholder="Search for a movie, TV show, or person"
+						placeholder="Search for a movie, TV show or person"
 						value={query}
 						onChange={(e) => setQuery(e.target.value)}
 						className="search-input"

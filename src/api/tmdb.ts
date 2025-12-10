@@ -77,24 +77,61 @@ export interface CombinedPersonCredits {
 	crew: PersonCredit[]
 }
 
+export interface Genre {
+	id: number
+	name: string
+}
+
+export interface ProductionCompany {
+	id: number
+	name: string
+	logo_path: string | null
+	origin_country: string
+}
+
+export interface ProductionCountry {
+	iso_3166_1: string
+	name: string
+}
+
+export interface SpokenLanguage {
+	iso_639_1: string
+	name: string
+	english_name: string
+}
+
+export interface BelongsToCollection {
+	id: number
+	name: string
+	poster_path?: string | null
+	backdrop_path?: string | null
+}
+
 export interface MovieDetails {
 	id: number
+	adult?: boolean
 	title: string
+	original_title?: string
+	original_language?: string
 	overview?: string
 	poster_path?: string | null
 	backdrop_path?: string | null
 	release_date?: string
-	runtime?: number
-	genres: { id: number; name: string }[]
-	tagline?: string
-	vote_average?: number
-	vote_count?: number
+	genres: Genre[]
+	belongs_to_collection?: BelongsToCollection | null
 	popularity?: number
+	vote_count?: number
+	vote_average?: number
 	budget?: number
 	revenue?: number
+	runtime?: number
 	status?: string
-	original_language?: string
-	homepage?: string
+	tagline?: string
+	homepage?: string | null
+	imdb_id?: string | null
+	production_companies?: ProductionCompany[]
+	production_countries?: ProductionCountry[]
+	spoken_languages?: SpokenLanguage[]
 }
 
 export interface MovieCastCredit {
@@ -158,26 +195,40 @@ export interface MovieSummary {
 	release_date?: string
 }
 
+export interface TVSeason {
+	id: number
+	name: string
+	overview?: string
+	poster_path?: string | null
+	season_number: number
+	air_date?: string
+	episode_count?: number
+}
+
 export interface TVDetails {
 	id: number
 	name: string
+	original_name?: string
+	original_language?: string
 	overview?: string
 	poster_path?: string | null
 	backdrop_path?: string | null
 	first_air_date?: string
 	last_air_date?: string
+	in_production?: boolean
 	number_of_seasons?: number
 	number_of_episodes?: number
-	genres: { id: number; name: string }[]
-	vote_average?: number
-	vote_count?: number
+	seasons?: TVSeason[]
+	genres: Genre[]
 	popularity?: number
-	tagline?: string
-	budget?: number
-	revenue?: number
+	vote_count?: number
+	vote_average?: number
 	status?: string
-	original_language?: string
-	homepage?: string
+	homepage?: string | null
+	networks?: { id: number; name: string; logo_path?: string | null; origin_country?: string }[]
+	production_companies?: ProductionCompany[]
+	production_countries?: ProductionCountry[]
+	spoken_languages?: SpokenLanguage[]
 }
 
 export interface TVCastCredit {
@@ -251,6 +302,31 @@ export interface MediaKeywordsResponse {
 	results?: Keyword[] // for TV
 }
 
+export interface ReviewAuthorDetails {
+	name: string
+	username: string
+	avatar_path: string | null
+	rating: number | null
+}
+
+export interface Review {
+	author: string
+	author_details: ReviewAuthorDetails
+	content: string
+	created_at: string
+	id: string
+	updated_at: string
+	url: string
+}
+
+export interface ReviewResponse {
+	id: number
+	page: number
+	results: Review[]
+	total_pages: number
+	total_results: number
+}
+
 // ===========================
 // TMDB fetch wrapper
 // ===========================
@@ -314,9 +390,13 @@ export const fetchPersonCombinedCredits = async (personId: number) => {
 	return data
 }
 
-// Universal fetch functions for movies & TV
-export const fetchMediaDetails = async (type: 'movie' | 'tv', id: number) => {
-	const data = await fetchTMDB<MovieDetails | TVDetails>(`/${type}/${id}`, { language: 'en-US' })
+// Conditional type: resolves to MovieDetails if 'movie', TVDetails if 'tv'
+export type MediaDetails<T extends 'movie' | 'tv'> = T extends 'movie' ? MovieDetails : TVDetails
+
+// Generic function to fetch details for a movie or TV show
+export const fetchMediaDetails = async <T extends 'movie' | 'tv'>(type: T, id: number): Promise<MediaDetails<T>> => {
+	// Call TMDb API with correct type inference
+	const data = await fetchTMDB<MediaDetails<T>>(`/${type}/${id}`, { language: 'en-US' })
 	return data
 }
 
@@ -369,8 +449,17 @@ export const fetchMediaExternalIds = async (type: 'movie' | 'tv', id: number) =>
 	return data
 }
 
-// Fetch keywords for movies and TV and always return a flat array of Keyword[].
+// Fetch keywords for movies and TV and always return a flat array of Keyword[]
 export const fetchKeywords = async (type: 'movie' | 'tv', id: number): Promise<Keyword[]> => {
 	const data = await fetchTMDB<MediaKeywordsResponse>(`/${type}/${id}/keywords`)
 	return data.keywords ?? data.results ?? []
+}
+
+// Fetch user reviews for a specific movie
+export const fetchMovieReviews = async (movieId: number, page: number = 1) => {
+	const data = await fetchTMDB<ReviewResponse>(`/movie/${movieId}/reviews`, {
+		language: 'en-US',
+		page,
+	})
+	return data.results
 }
