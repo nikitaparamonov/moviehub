@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { fetchPopularMovies, MovieDetails } from '../api/tmdb'
-import MovieList from '../components/MovieList'
-import SearchBanner from '../components/SearchBanner'
+import SearchBanner from '../components/main/SearchBanner'
+import TrendingMovies from '../components/main/TrendingMovies'
+import '../components/css/HomePage.css'
 
 const Home: React.FC = () => {
-	const [popularMovies, setPopularMovies] = useState<MovieDetails[] | null>(null)
+	const [popularMovies, setPopularMovies] = useState<MovieDetails[]>()
 	const [loadingPopular, setLoadingPopular] = useState(true)
 
 	// Fetch popular movies on mount
@@ -26,11 +27,13 @@ const Home: React.FC = () => {
 	}, [])
 
 	return (
-		<div className="home-page">
+		<div className="home-page flex-column">
 			<Header />
-			<main style={{ backgroundColor: '#032541', minHeight: '80vh' }}>
+			<main className='flex-column center'>
 				<SearchBanner />
-				<MovieList title="Trending" movies={popularMovies} loading={loadingPopular} />
+				<div className='main-content-wrapper'>
+					<TrendingMovies title="Trending" movies={popularMovies} />
+				</div>	
 			</main>
 			<Footer />
 		</div>

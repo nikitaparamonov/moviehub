@@ -26,7 +26,7 @@ html {
 :root {
 	--border-radius: 8px;
 	--card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-	--main-bg-color: #111;
+	--text-main: #111;
 	--text-light: rgba(255, 255, 255, 0.8);
 	--light-grey: rgb(227, 227, 227);
 }
@@ -58,7 +58,7 @@ html {
 	justify-content: space-between;
 }
 .flex-list {
-	display: inline-flex;
+	display: flex;
 	margin: 0;
 	padding: 0;
 	list-style: none;
@@ -71,4 +71,23 @@ html {
 }
 .gap-30 {
 	gap: 30px;
+}
+
+/* ==========================
+   "sr-only" class visually hides an element while keeping it accessible 
+   to screen readers. It is used for headings or labels that provide 
+   context for assistive technologies but should not be visible 
+   in the UI.
+   ========================== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }

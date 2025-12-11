@@ -1,5 +1,5 @@
 import React, { useState, FormEvent } from 'react'
-import './css/SearchBanner.css'
+import '../css/SearchBanner.css'
 import { useNavigate } from 'react-router-dom'
 
 const SearchBanner: React.FC = () => {
