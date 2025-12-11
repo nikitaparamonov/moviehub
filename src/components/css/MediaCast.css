@@ -1,0 +1,31 @@
+.cast-content-wrapper {
+    width: 100%;
+    max-width: 1400px;
+}
+.cast-member {
+    min-width: 140px;
+    width: 100%;
+}
+.cast-member-photo {
+    border-radius: var(--border-radius);
+}
+.cast-member-info {
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 14px;
+    padding-right: 20px;
+}
+.cast-member-info p {
+    margin: 0;
+    width: 100%;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+}
+.cast-member-info p:first-child {
+    font-weight: 700;
+}
+.cast-member-info p:last-child {
+    font-weight: 400;
+    font-size: 0.9rem;
+}

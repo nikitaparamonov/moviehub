@@ -84,7 +84,7 @@ const MoviePage: React.FC = () => {
 
 				<div className="movie-column-wrapper flex">
 					<div className="movie-column-left flex-column gap-30">
-						{top10Cast.length > 0 && <MovieCast cast={top10Cast} mediaType={media.mediaType} />}
+						{top10Cast.length > 0 && <MovieCast cast={top10Cast} mediaType={media.mediaType} mediaId={data.details.id} />}
 						<MovieReviewBlock
 							movieDetails={data.details}
 							allReviews={data.reviews}

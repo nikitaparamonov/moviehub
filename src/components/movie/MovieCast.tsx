@@ -6,9 +6,10 @@ import { ReactComponent as NoImageIcon } from '../icons/NoImageIcon.svg'
 interface MovieCastProps<T extends 'movie' | 'tv'> {
 	cast: CastCredit[]
 	mediaType: T
+	mediaId: number
 }
 
-const MovieCast = <T extends 'movie' | 'tv'>({ cast, mediaType }: MovieCastProps<T>) => {
+const MovieCast = <T extends 'movie' | 'tv'>({ cast, mediaType, mediaId }: MovieCastProps<T>) => {
 	return (
 		<section className="content-block">
 			{mediaType === 'movie' && <h3>Top Billed Cast</h3>}
@@ -28,6 +29,7 @@ const MovieCast = <T extends 'movie' | 'tv'>({ cast, mediaType }: MovieCastProps
 					</Link>
 				))}
 			</div>
+			<Link to={`/${mediaType}/${mediaId}/cast`}>Full Cast & Crew</Link>
 		</section>
 	)
 }
