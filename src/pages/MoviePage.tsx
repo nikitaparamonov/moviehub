@@ -6,21 +6,58 @@ import MediaInfo, { MediaBase } from '../components/movie/MediaInfo'
 import MovieCast from '../components/movie/MovieCast'
 import MediaBlock from '../components/movie/MediaBlock'
 import SimilarMedia from '../components/movie/SimilarMedia'
-import SocialLinks from '../components/movie/SocialLinks'
 import MovieReviewBlock from '../components/movie/MovieReviewBlock'
 import { useMediaPageData } from '../components/hooks/useMediaPageData'
-import { getLanguageName } from '../utils/lang'
+import MediaSidebar from '../components/movie/MediaSidebar'
+
+
+interface GroupedCrew {
+	id: number
+	name: string
+	jobs: string[]
+}
 
 const MoviePage: React.FC = () => {
 	const { id } = useParams<{ id: string }>()
 	const mediaId = Number(id)
 
 	// Use the generic unified hook
-	const { data, loading, error, randomReview, crew, top10Cast } = useMediaPageData('movie', mediaId)
+	const { data, loading, error, randomReview, top10Cast } = useMediaPageData('movie', mediaId)
 
 	if (loading) return <div className="loading">Loading...</div>
 	if (error || !data || !data.details || !data.credits)
 		return <div className="error">{error || 'Movie not found'}</div>
+
+	const importantJobs = ['Director', 'Writer', 'Characters', 'Novel', 'Screenplay', 'Story']
+
+	// Group crew members by ID and filter only important jobs
+	const groupedCrew: GroupedCrew[] = Object.values(
+		data.credits.crew.reduce<Record<number, GroupedCrew>>((acc, person) => {
+			if (!person.job || !importantJobs.includes(person.job)) return acc
+
+			if (!acc[person.id]) {
+				acc[person.id] = { id: person.id, name: person.name, jobs: [] }
+			}
+
+			// Avoid duplicate jobs
+			if (!acc[person.id].jobs.includes(person.job)) {
+				acc[person.id].jobs.push(person.job)
+			}
+			return acc
+		}, {}),
+	)
+
+	// Sort jobs by priority for each person
+	groupedCrew.forEach((person) => {
+		person.jobs.sort((a, b) => importantJobs.indexOf(a) - importantJobs.indexOf(b))
+	})
+
+	// Sort people by first job priority, then by name
+	groupedCrew.sort((a, b) => {
+		const jobCompare = importantJobs.indexOf(a.jobs[0]) - importantJobs.indexOf(b.jobs[0])
+		if (jobCompare !== 0) return jobCompare
+		return a.name.localeCompare(b.name)
+	})
 
 	// Map MovieDetails to MediaBase for MediaInfo
 	const media: MediaBase = {
@@ -32,9 +69,10 @@ const MoviePage: React.FC = () => {
 		releaseDate: data.releaseDate,
 		genres: data.details.genres.map((g) => ({ id: g.id, name: g.name })),
 		tagline: data.details.tagline,
-		crew: crew.map((c) => ({ id: c.id, name: c.name, jobs: c.job })),
+		crew: groupedCrew,
 		runtime: data.details.runtime,
 		certification: data.certification,
+		mediaType: 'movie'
 	}
 
 	return (
@@ -46,7 +84,7 @@ const MoviePage: React.FC = () => {
 
 				<div className="movie-column-wrapper flex">
 					<div className="movie-column-left flex-column gap-30">
-						{top10Cast.length > 0 && <MovieCast cast={top10Cast} />}
+						{top10Cast.length > 0 && <MovieCast cast={top10Cast} mediaType={media.mediaType} />}
 						<MovieReviewBlock
 							movieDetails={data.details}
 							allReviews={data.reviews}
@@ -56,41 +94,7 @@ const MoviePage: React.FC = () => {
 						{data.similar.length > 0 && <SimilarMedia items={data.similar} type="movie" />}
 					</div>
 
-					<div className="movie-column-right flex-column flex-wrap gap-20">
-						<section className="movie-social-links">
-							<SocialLinks
-								imdb_id={data.external?.imdb_id}
-								wikidata_id={data.external?.wikidata_id}
-								facebook_id={data.external?.facebook_id}
-								instagram_id={data.external?.instagram_id}
-								twitter_id={data.external?.twitter_id}
-								homepage={data.details.homepage}
-							/>
-						</section>
-
-						<section className="movie-release-info">
-							<p>
-								<strong>Status:</strong> {data.details.status}
-							</p>
-							<p>
-								<strong>Original Language:</strong> {getLanguageName(data.details.original_language)}
-							</p>
-							<p>
-								<strong>Budget:</strong> ${data.details.budget?.toLocaleString() ?? 0}
-							</p>
-							<p>
-								<strong>Revenue:</strong> ${data.details.revenue?.toLocaleString() ?? 0}
-							</p>
-						</section>
-
-						<section className="movie-keywords">
-							{data.keywords.map((k) => (
-								<button key={k.id} className="keyword-btn">
-									{k.name}
-								</button>
-							))}
-						</section>
-					</div>
+					<MediaSidebar details={data.details} external={data.external} keywords={data.keywords} />
 				</div>
 			</div>
 

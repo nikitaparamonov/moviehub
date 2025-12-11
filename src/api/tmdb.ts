@@ -39,6 +39,7 @@ export interface CastCredit extends BaseCredit {
 export interface CrewCredit extends BaseCredit {
 	job?: string
 	department?: string
+	jobs?: string[]
 }
 
 export interface MediaCredits<T extends CastCredit = CastCredit, U extends CrewCredit = CrewCredit> {
@@ -123,11 +124,14 @@ export interface TVDetails extends BaseMedia {
 	seasons?: TVSeason[]
 	genres: Genre[]
 	status?: string
+	tagline?: string
 	homepage?: string | null
+	created_by: { id: number; name: string; }[]
 	networks?: { id: number; name: string; logo_path?: string | null; origin_country?: string }[]
 	production_companies?: ProductionCompany[]
 	production_countries?: ProductionCountry[]
 	spoken_languages?: SpokenLanguage[]
+	type: string
 }
 
 // Unified summary types
@@ -211,9 +215,16 @@ export interface Keyword {
 	name: string
 }
 
-export interface MediaKeywordsResponse {
-	items: Keyword[]
+export interface MovieKeywordsResponse {
+	id: number
+	keywords: Keyword[]
 }
+
+export interface TvKeywordsResponse {
+	id: number
+	results: Keyword[]
+}
+
 
 // Reviews
 export interface ReviewAuthorDetails {
@@ -253,6 +264,25 @@ export interface ExternalIDsResponse {
 	freebase_id?: string | null
 	tvdb_id?: number | null
 	tvrage_id?: number | null
+}
+
+// Release dates
+export interface ReleaseDateInfo {
+	certification: string
+	iso_639_1?: string
+	release_date: string
+	type: number
+	note?: string
+}
+
+export interface CountryReleaseDates {
+	iso_3166_1: string
+	release_dates: ReleaseDateInfo[]
+}
+
+export interface TVRating {
+	iso_3166_1: string;
+	rating: string;
 }
 
 // ===========================
@@ -320,9 +350,13 @@ export const fetchMediaVideos = async (type: 'movie' | 'tv', id: number) =>
 export const fetchMediaExternalIds = async (type: 'movie' | 'tv', id: number) =>
 	fetchTMDB<ExternalIDsResponse>(`/${type}/${id}/external_ids`)
 
-export const fetchKeywords = async (type: 'movie' | 'tv', id: number): Promise<Keyword[]> => {
-	const data = await fetchTMDB<MediaKeywordsResponse | { results: Keyword[] }>(`/${type}/${id}/keywords`)
-	return ('items' in data ? data.items : data.results) ?? []
+export async function fetchKeywords(type: 'movie' | 'tv', id: number) {
+	const data = await fetchTMDB<MovieKeywordsResponse | TvKeywordsResponse>(
+		`/${type}/${id}/keywords`
+	)
+
+	if (type === 'movie') return (data as MovieKeywordsResponse).keywords
+	return (data as TvKeywordsResponse).results
 }
 
 export const fetchMovieReviews = async (type: 'movie' | 'tv', id: number, page: number = 1) =>
@@ -333,21 +367,23 @@ export const fetchSimilarMedia = async <T extends 'movie' | 'tv'>(type: T, id: n
 	fetchTMDB<{ results: MediaSummary<T>[] }>(`/${type}/${id}/similar`).then((res) => res.results)
 
 // Release dates
-export interface ReleaseDateInfo {
-	certification: string
-	iso_639_1?: string
-	release_date: string
-	type: number
-	note?: string
-}
+export const fetchMediaReleaseData = async (type: "movie" | "tv", id: number) => {
+	if (type === "movie") {
+		return fetchTMDB<{ results: CountryReleaseDates[] }>(
+			`/${type}/${id}/release_dates`
+		).then((res) => ({
+			type: "movie" as const,
+			releaseDates: res.results,
+		}))
+	}
 
-export interface CountryReleaseDates {
-	iso_3166_1: string
-	release_dates: ReleaseDateInfo[]
+	return fetchTMDB<{ results: TVRating[] }>(`/tv/${id}/content_ratings`).then(
+		(res) => ({
+			type: "tv" as const,
+			ratings: res.results,
+		})
+	)
 }
-
-export const fetchMovieReleaseDates = async (movieId: number): Promise<CountryReleaseDates[]> =>
-	fetchTMDB<{ results: CountryReleaseDates[] }>(`/movie/${movieId}/release_dates`).then((res) => res.results)
 
 // ===========================
 // Unified fetch for media

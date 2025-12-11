@@ -3,14 +3,16 @@ import type { CastCredit } from '../../api/tmdb'
 import { Link } from 'react-router-dom'
 import { ReactComponent as NoImageIcon } from '../icons/NoImageIcon.svg'
 
-interface MovieCastProps {
+interface MovieCastProps<T extends 'movie' | 'tv'> {
 	cast: CastCredit[]
+	mediaType: T
 }
 
-const MovieCast: React.FC<MovieCastProps> = ({ cast }) => {
+const MovieCast = <T extends 'movie' | 'tv'>({ cast, mediaType }: MovieCastProps<T>) => {
 	return (
 		<section className="content-block">
-			<h3>Top Billed Cast</h3>
+			{mediaType === 'movie' && <h3>Top Billed Cast</h3>}
+			{mediaType === 'tv' && <h3>Series Cast</h3>}
 			<div className="horizontal-scroll-container">
 				{cast.map((c, i) => (
 					<Link to={`/person/${c.id}`} key={`${c.id}-${i}`} className="card card-small cast-card">

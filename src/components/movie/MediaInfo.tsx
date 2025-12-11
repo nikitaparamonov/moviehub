@@ -17,16 +17,12 @@ export interface MediaBase {
 	crew: CrewCredit[]
 	runtime?: number
 	certification?: string
+	tvType?: string
+	mediaType: 'movie' | 'tv'
 }
 
 interface MediaInfoProps {
 	media: MediaBase
-}
-
-interface GroupedCrew {
-	id: number
-	name: string
-	jobs: string[]
 }
 
 const MediaInfo: React.FC<MediaInfoProps> = ({ media }) => {
@@ -35,43 +31,6 @@ const MediaInfo: React.FC<MediaInfoProps> = ({ media }) => {
 	)
 	const [r, g, b] = dominant || [20, 20, 20]
 	const backdropUrl = media.backdrop_path ? `url(https://image.tmdb.org/t/p/original${media.backdrop_path})` : 'none'
-
-	const importantJobs = ['Director', 'Writer', 'Characters', 'Novel', 'Screenplay', 'Story']
-
-	// Group crew members by ID and filter only important jobs
-	const groupedCrew: GroupedCrew[] = Object.values(
-		media.crew.reduce<Record<number, GroupedCrew>>((acc, person) => {
-			console.log(acc)
-			console.log(person)
-			if (!person.job || !importantJobs.includes(person.job)) return acc
-
-			if (!acc[person.id]) {
-				acc[person.id] = { id: person.id, name: person.name, jobs: [] }
-			}
-
-			// Avoid duplicate jobs
-			if (!acc[person.id].jobs.includes(person.job)) {
-				acc[person.id].jobs.push(person.job)
-			}
-			return acc
-		}, {}),
-	)
-	
-
-	// Sort jobs by priority for each person
-	groupedCrew.forEach((person) => {
-		person.jobs.sort((a, b) => importantJobs.indexOf(a) - importantJobs.indexOf(b))
-	})
-	
-
-	// Sort people by first job priority, then by name
-	groupedCrew.sort((a, b) => {
-		const jobCompare = importantJobs.indexOf(a.jobs[0]) - importantJobs.indexOf(b.jobs[0])
-		if (jobCompare !== 0) return jobCompare
-		return a.name.localeCompare(b.name)
-	})
-
-	
 
 	return (
 		<div
@@ -100,7 +59,7 @@ const MediaInfo: React.FC<MediaInfoProps> = ({ media }) => {
 						</h2>
 						<div className="movie-facts flex">
 							{media.certification && <span className="facts-certification">{media.certification}</span>}
-							{media.releaseDate && <span className="facts-release-date">{media.releaseDate}</span>}
+							{media.mediaType === 'movie' && media.releaseDate && <span className="facts-release-date">{media.releaseDate}</span>}
 							<span className="facts-genres">{media.genres.map((g) => g.name).join(', ')}</span>
 							{media.runtime && <span className="facts-runtime">{formatRuntime(media.runtime)}</span>}
 						</div>
@@ -111,14 +70,15 @@ const MediaInfo: React.FC<MediaInfoProps> = ({ media }) => {
 						<h3 className="overview-title">Overview</h3>
 						{media.overview && <p className="movie-overview">{media.overview}</p>}
 						<ol className="movie-header-crew flex">
-							{groupedCrew.map((person) => (
-								<li key={person.id} className="crew-person">
-									<Link to={`/person/${person.id}`} className="crew-person-name">
-										{person.name}
-									</Link>
-									<p className="crew-person-job">{person.jobs.join(', ')}</p>
-								</li>
-							))}
+							{media.crew
+								.map((person) => (
+									<li key={person.id} className="crew-person">
+										<Link to={`/person/${person.id}`} className="crew-person-name">
+											{person.name}
+										</Link>
+										<p className="crew-person-job">{person.jobs?.join(', ')}</p>
+									</li>
+								))}
 						</ol>
 					</div>
 				</div>
