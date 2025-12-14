@@ -26,7 +26,7 @@ const MovieCast: React.FC<MovieCastProps> = ({ cast, mediaType, mediaId }) => {
 	const heading = mediaType === 'movie' ? 'Top Billed Cast' : 'Series Cast'
 
 	return (
-		<>
+		<div>
 			<HorizontalScrollBlock
 				heading={heading}
 				ariaLabel="cast-heading"
@@ -39,7 +39,7 @@ const MovieCast: React.FC<MovieCastProps> = ({ cast, mediaType, mediaId }) => {
 					Full Cast & Crew
 				</Link>
 			</div>
-		</>
+		</div>
 	)
 }
 

@@ -2,6 +2,7 @@ import React from 'react'
 import { MovieDetails, TVDetails, type Review } from '../../api/tmdb'
 import { Link } from 'react-router-dom'
 import ReviewCard from './ReviewCard'
+import Empty from '../Empty'
 
 interface MovieReviewBlockProps {
 	movieDetails: MovieDetails | TVDetails
@@ -14,7 +15,9 @@ const MovieReviewBlock: React.FC<MovieReviewBlockProps> = ({ movieDetails, allRe
 		return (
 			<section className="content-block">
 				<h3>Social</h3>
-				<p>No reviews found.</p>
+				<div style={{ paddingLeft: '10px' }}>
+					<Empty text="No reviews found"/>
+				</div>
 			</section>
 		)
 	}
@@ -22,7 +25,7 @@ const MovieReviewBlock: React.FC<MovieReviewBlockProps> = ({ movieDetails, allRe
 	const movieId = movieDetails?.id
 
 	return (
-		<section className="content-block">
+		<section className="content-block" aria-labelledby="review-heading">
 			<h3>Social</h3>
 			<ReviewCard review={randomReview} movieDetails={movieDetails} />
 			<div className="review-read-all">

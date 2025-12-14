@@ -88,7 +88,7 @@ const MediaBlock: React.FC<MediaBlockProps> = ({ media }) => {
 	)
 
 	return (
-		<section className="flex-column">
+		<section className="flex-column" aria-labelledby="media-heading">
 			<div className="content-block media-block-menu">
 				<h3>Media</h3>
 				<MediaTabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />

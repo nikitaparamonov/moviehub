@@ -13,8 +13,8 @@ export interface HorizontalScrollItem {
 	image: string | null
 	imageType: 'poster' | 'portrait'
 	imageClassName?: string
-    titleClassName?: string
-    subtitleClassName?: string
+	titleClassName?: string
+	subtitleClassName?: string
 }
 
 interface HorizontalScrollBlockProps {
@@ -40,14 +40,12 @@ const HorizontalScrollBlock: React.FC<HorizontalScrollBlockProps> = ({
 				{items.map((item) => (
 					<li key={item.id} className={itemClass}>
 						<Link to={item.to} className="card flex-column">
-							{item.image && (
-								<ImageWithFallback
-									src={item.image}
-									alt={item.title || 'Image'}
-									className={item.imageClassName}
-									type={item.imageType}
-								/>
-							)}
+							<ImageWithFallback
+								src={item.image}
+								alt={item.title || 'Image'}
+								className={item.imageClassName}
+								type={item.imageType}
+							/>
 							{item.title && <p className={item.titleClassName}>{item.title}</p>}
 							{item.subtitle && <p className={item.subtitleClassName}>{item.subtitle}</p>}
 						</Link>

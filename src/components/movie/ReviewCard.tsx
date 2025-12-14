@@ -33,7 +33,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, movieDetails }) => {
 	}, [fullText, movieDetails, parsedFull, review])
 
 	return (
-		<li key={review.id} className="card review-card">
+		<div key={review.id} className="review-card">
 			<div className="review-header">
 				{/* Avatar */}
 				<ImageWithFallback
@@ -57,7 +57,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, movieDetails }) => {
 
 			{/* Review content */}
 			<div className="review-content">{expanded ? parsedFull : previewNodes}</div>
-		</li>
+		</div>
 	)
 }
 

@@ -37,15 +37,16 @@ export const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({ src, alt, 
 					}}
 				/>
 			) : (
-				<FallbackIcon
-					style={{
-						display: 'block',
-						margin: '0 auto',
-						width: '100%',
-						height: '100%',
-						backgroundColor: 'rgb(219, 219, 219)',
-					}}
-				/>
+				<div style={{ backgroundColor: 'rgb(219, 219, 219)', width: '100%', height: '100%' }}>
+					<FallbackIcon
+						style={{
+							display: 'block',
+							margin: '0 auto',
+							width: '70%',
+							height: '100%',
+						}}
+					/>
+				</div>
 			)}
 		</div>
 	)
