@@ -1,39 +1,40 @@
+import React from 'react'
 import type { MediaSummary } from '../../api/tmdb'
-import { Link } from 'react-router-dom'
-import { ReactComponent as NoImageIcon } from '../icons/NoImageIcon.svg'
+import HorizontalScrollBlock, { HorizontalScrollItem } from '../ui/HorizontalScrollBlock'
+import '../css/HorizontalScrollBlock.css'
 
-interface Props<T extends 'movie' | 'tv'> {
+interface SimilarMediaProps<T extends 'movie' | 'tv'> {
 	items: MediaSummary<T>[]
 	type: T
 }
 
-const SimilarMedia = <T extends 'movie' | 'tv'>({ items, type }: Props<T>) => {
-	return (
-		<section className="content-block">
-			<h3>Recommendations</h3>
-			<div className="horizontal-scroll-container">
-				{items.map((item) => {
-					// unify title and route
-					const title = 'title' in item ? item.title : item.name
-					const route = type === 'movie' ? `/movie/${item.id}` : `/tv/${item.id}`
-					const posterPath = item.poster_path
+function getMediaLink<T extends 'movie' | 'tv'>(item: MediaSummary<T>, type: T) {
+	const title = 'title' in item ? item.title : item.name
+	const route = type === 'movie' ? `/movie/${item.id}` : `/tv/${item.id}`
+	return { title, route }
+}
 
-					return (
-						<Link to={route} key={item.id} className="card card-medium">
-							<div className="similar-card-img-wrapper">
-								{posterPath ? (
-									<img src={`https://image.tmdb.org/t/p/w300${posterPath}`} alt={title} />
-								) : (
-									<NoImageIcon className="img-placeholder" />
-								)}
-							</div>
-							<p className="similar-card-title">{title}</p>
-						</Link>
-					)
-				})}
-			</div>
-		</section>
+const SimilarMedia = <T extends 'movie' | 'tv'>({ items, type }: SimilarMediaProps<T>) => {
+	const scrollItems: HorizontalScrollItem[] = items.map((item) => {
+		const { title, route } = getMediaLink(item, type)
+
+		return {
+			id: item.id,
+			to: route,
+			title,
+			image: item.poster_path ? `https://image.tmdb.org/t/p/w300${item.poster_path}` : null,
+			imageType: 'poster',
+			imageClassName: 'card-image-wrapper',
+			titleClassName: 'card-title',
+		}
+	})
+	return (
+		<HorizontalScrollBlock
+			heading="Recommendations"
+			ariaLabel="recommendations-heading"
+			items={scrollItems}
+		/>
 	)
 }
 
-export default SimilarMedia
+export default React.memo(SimilarMedia)

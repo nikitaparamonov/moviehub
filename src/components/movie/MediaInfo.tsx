@@ -4,6 +4,7 @@ import { useDominantColor } from '../hooks/useDominantColor'
 import { formatRuntime, getYear } from '../../utils/date'
 import '../css/MoviePage.css'
 import { CrewCredit, Genre } from '../../api/tmdb'
+import { ImageWithFallback } from '../ui/ImageWithFallback'
 
 export interface MediaBase {
 	id: number
@@ -43,14 +44,12 @@ const MediaInfo: React.FC<MediaInfoProps> = ({ media }) => {
 			}
 		>
 			<div className="movie-info flex gap-30">
-				{media.poster_path && (
-					<img
-						src={`https://image.tmdb.org/t/p/w400${media.poster_path}`}
-						alt={media.title}
-						className="movie-poster"
-						loading="lazy"
-					/>
-				)}
+				<ImageWithFallback
+					src={media.poster_path ? `https://image.tmdb.org/t/p/w400${media.poster_path}` : null}
+					alt={media.title}
+					className="movie-poster"
+					type="poster"
+				/>
 
 				<div>
 					<div className="movie-title-block">
@@ -59,26 +58,27 @@ const MediaInfo: React.FC<MediaInfoProps> = ({ media }) => {
 						</h2>
 						<div className="movie-facts flex">
 							{media.certification && <span className="facts-certification">{media.certification}</span>}
-							{media.mediaType === 'movie' && media.releaseDate && <span className="facts-release-date">{media.releaseDate}</span>}
+							{media.mediaType === 'movie' && media.releaseDate && (
+								<span className="facts-release-date">{media.releaseDate}</span>
+							)}
 							<span className="facts-genres">{media.genres.map((g) => g.name).join(', ')}</span>
 							{media.runtime && <span className="facts-runtime">{formatRuntime(media.runtime)}</span>}
 						</div>
 					</div>
 
 					<div className="movie-header-info">
-						{media.tagline && <span className="movie-tagline">{media.tagline}</span>}
+						{media.tagline && <p className="movie-tagline">{media.tagline}</p>}
 						<h3 className="overview-title">Overview</h3>
-						{media.overview && <p className="movie-overview">{media.overview}</p>}
+						<p className="movie-overview">{media.overview || 'No overview available.'}</p>
 						<ol className="movie-header-crew flex">
-							{media.crew
-								.map((person) => (
-									<li key={person.id} className="crew-person">
-										<Link to={`/person/${person.id}`} className="crew-person-name">
-											{person.name}
-										</Link>
-										<p className="crew-person-job">{person.jobs?.join(', ')}</p>
-									</li>
-								))}
+							{media.crew.map((person) => (
+								<li key={person.id} className="crew-person">
+									<Link to={`/person/${person.id}`} className="crew-person-name">
+										{person.name}
+									</Link>
+									<p className="crew-person-job">{person.jobs?.join(', ')}</p>
+								</li>
+							))}
 						</ol>
 					</div>
 				</div>

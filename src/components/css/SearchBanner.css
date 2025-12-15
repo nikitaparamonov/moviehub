@@ -1,4 +1,5 @@
 .search-banner {
+	width: 100%;
 	position: relative;
 	background-image: url('../images/searchBannerBackground.jpg');
 	background-size: cover;

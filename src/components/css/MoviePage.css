@@ -101,6 +101,7 @@
 	color: #fff;
 	opacity: 0.7;
 	font-weight: 500;
+	margin: 0;
 }
 .overview-title {
 	font-size: 1.2rem;
@@ -165,50 +166,6 @@
 }
 
 /* ==========================
-   CONTENT / CARD BASE (actors, media, similar)
-   ========================== */
-
-.content-block > h3 {
-	font-weight: 600;
-	font-size: 1.4em;
-	margin: 0 0 10px 0;
-}
-.horizontal-scroll-container {
-	display: flex;
-	overflow-x: auto;
-	gap: 15px;
-	padding-bottom: 10px;
-	-webkit-overflow-scrolling: touch;
-}
-.card {
-	flex: 0 0 auto;
-	color: black;
-	border: 1px solid var(--light-grey);
-	border-radius: var(--border-radius);
-	overflow: hidden;
-	background-color: #fff;
-	box-shadow: var(--card-shadow);
-	text-decoration: none;
-	padding-bottom: 10px;
-}
-.card img {
-	width: 100%;
-	height: inherit;
-	object-fit: cover;
-	display: block;
-	border-radius: var(--border-radius);
-}
-/* Size modifiers */
-.card-small {
-	min-width: 150px;
-	width: 150px;
-}
-.card-medium {
-	min-width: 200px;
-	width: 200px;
-}
-
-/* ==========================
    CAST BLOCK
    ========================== */
 
@@ -227,7 +184,7 @@
 .cast-role {
 	font-size: .9em;
 	margin: 0;
-	padding: 0 10px;
+	padding: 0 10px 10px;
 }
 
 /* ==========================
@@ -240,8 +197,13 @@
 	margin: 0;
 }
 .review-card {
-    width: 100%;
+	height: auto;
+	width: 100%;
     padding: 20px;
+	margin: 10px 0 0 10px;
+    border: 1px solid var(--light-grey);
+    border-radius: var(--border-radius);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
 }
 .review-header {
 	display: flex;
@@ -256,6 +218,8 @@
 .review-author-avatar {
 	width: 48px;
     margin-right: 16px;
+	border-radius: var(--border-radius);
+    overflow: hidden;
 }
 .review-date {
 	font-weight: 300;
@@ -269,22 +233,27 @@
 	font-size: 1em;
 }
 .review-content-link,
-.review-read-all-link {
+.review-read-all-link,
+.full-cast-link {
 	color: #000;
 } 
 .review-content-link:hover,
-.review-read-all-link:hover {
+.review-read-all-link:hover,
+.full-cast-link:hover {
 	color: rgba(0, 0, 0, 0.5);
 } 
 .review-content-link {
 	margin-left: 5px;
 }
-.review-read-all-link {
+.review-read-all-link,
+.full-cast-link {
 	font-weight: 600;
     font-size: 1.1em;
 	text-decoration: none;
 }
-.review-read-all {
+.review-read-all,
+.full-cast {
+	padding-left: 10px;
 	margin-top: 20px;
 }
 
@@ -360,23 +329,8 @@
 	min-height: 300px;
 	height: 300px;
 }
-
-/* ==========================
-   SIMILAR MOVIES
-   ========================== */
-
-.similar-card-img-wrapper {
-	height: 300px;
-}
-.similar-card-title {
-	text-align: center;
-	margin: 6px 0 0;
-	font-weight: 600;
-
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
-	overflow: hidden;
+.media-backdrop-image {
+	min-width: 350px;
 }
 
 /* ==========================
@@ -394,9 +348,8 @@
 	margin: 0;
 }
 .media-network-logo {
+	width: fit-content;
 	height: 30px;
-	object-fit: none;
-	width: min-content;
 }
 
 /* ==========================
@@ -413,15 +366,8 @@
 }
 
 /* ==========================
-   NO IMAGE / PLACEHOLDER
+   REVIEW
    ========================== */
-
-.img-placeholder {
-	display: block;
-	margin: 0 auto;
-	width: 80%;
-	height: 100%;
-}
 
 .full-review-block {
 	max-width: 800px;

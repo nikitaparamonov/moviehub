@@ -1,37 +1,46 @@
 import React from 'react'
 import type { CastCredit } from '../../api/tmdb'
+import HorizontalScrollBlock, { HorizontalScrollItem } from '../ui/HorizontalScrollBlock'
 import { Link } from 'react-router-dom'
-import { ReactComponent as NoImageIcon } from '../icons/NoImageIcon.svg'
+import '../css/HorizontalScrollBlock.css'
 
-interface MovieCastProps<T extends 'movie' | 'tv'> {
+interface MovieCastProps {
 	cast: CastCredit[]
-	mediaType: T
+	mediaType: 'movie' | 'tv'
 	mediaId: number
 }
 
-const MovieCast = <T extends 'movie' | 'tv'>({ cast, mediaType, mediaId }: MovieCastProps<T>) => {
+const MovieCast: React.FC<MovieCastProps> = ({ cast, mediaType, mediaId }) => {
+	const scrollItems: HorizontalScrollItem[] = cast.map((c) => ({
+		id: c.id,
+		to: `/person/${c.id}`,
+		title: c.name,
+		subtitle: c.character,
+		image: c.profile_path ? `https://image.tmdb.org/t/p/w200${c.profile_path}` : null,
+		imageType: 'portrait',
+		imageClassName: 'cast-card-img-wrapper',
+		titleClassName: 'cast-name',
+		subtitleClassName: 'cast-role',
+	}))
+
+	const heading = mediaType === 'movie' ? 'Top Billed Cast' : 'Series Cast'
+
 	return (
-		<section className="content-block">
-			{mediaType === 'movie' && <h3>Top Billed Cast</h3>}
-			{mediaType === 'tv' && <h3>Series Cast</h3>}
-			<div className="horizontal-scroll-container">
-				{cast.map((c, i) => (
-					<Link to={`/person/${c.id}`} key={`${c.id}-${i}`} className="card card-small cast-card">
-						<div className='cast-card-img-wrapper'>
-							{c.profile_path ? (
-								<img src={`https://image.tmdb.org/t/p/w200${c.profile_path}`} alt={c.name} />
-							) : (
-								<NoImageIcon className="img-placeholder" />
-							)}
-						</div>
-						<p className="cast-name">{c.name}</p>
-						<p className="cast-role">{c.character}</p>
-					</Link>
-				))}
+		<div>
+			<HorizontalScrollBlock
+				heading={heading}
+				ariaLabel="cast-heading"
+				items={scrollItems}
+				itemClass="card-small"
+			/>
+
+			<div className="full-cast">
+				<Link to={`/${mediaType}/${mediaId}/cast`} className="full-cast-link">
+					Full Cast & Crew
+				</Link>
 			</div>
-			<Link to={`/${mediaType}/${mediaId}/cast`}>Full Cast & Crew</Link>
-		</section>
+		</div>
 	)
 }
 
-export default MovieCast
+export default React.memo(MovieCast)

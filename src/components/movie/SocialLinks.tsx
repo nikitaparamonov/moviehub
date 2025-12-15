@@ -43,4 +43,4 @@ const SocialLinks: React.FC<SocialLinksProps> = ({ imdb_id, wikidata_id, faceboo
 	)
 }
 
-export default SocialLinks
+export default React.memo(SocialLinks)

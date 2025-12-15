@@ -1,13 +1,31 @@
 .cast-content-wrapper {
     width: 100%;
     max-width: 1400px;
+    padding: 0 40px;
+}
+.cast-content {
+    width: 50%;
+}
+.cast-group-title {
+    font-weight: 600;
+    font-size: 1.4em;
+}
+.cast-people-count {
+    font-weight: 400;
+    opacity: 0.6;
+}
+.crew-department-title {
+    margin: 0 0 10px;
 }
 .cast-member {
     min-width: 140px;
     width: 100%;
 }
-.cast-member-photo {
+.cast-member-portrait {
     border-radius: var(--border-radius);
+    overflow: hidden;
+    width: 66px;
+    height: 66px;
 }
 .cast-member-info {
     justify-content: center;

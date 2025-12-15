@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from 'react'
 import { MovieDetails, TVDetails, type Review } from '../../api/tmdb'
 import { formatDate } from '../../utils/date'
-import { ReactComponent as NoImageIcon } from '../icons/NoImageIcon.svg'
 import { Link } from 'react-router-dom'
 import { createPreviewNodes, parseReview } from '../../utils/parseReview'
+import { ImageWithFallback } from '../ui/ImageWithFallback'
 
 interface ReviewCardProps {
 	review: Review
@@ -33,19 +33,15 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, movieDetails }) => {
 	}, [fullText, movieDetails, parsedFull, review])
 
 	return (
-		<li key={review.id} className="card review-card">
+		<div key={review.id} className="review-card">
 			<div className="review-header">
 				{/* Avatar */}
-				<div className="review-author-avatar">
-					{review.author_details.avatar_path ? (
-						<img
-							src={`https://media.themoviedb.org/t/p/w45_and_h45_face${review.author_details.avatar_path}`}
-							alt="User avatar"
-						/>
-					) : (
-						<NoImageIcon className="img-placeholder" />
-					)}
-				</div>
+				<ImageWithFallback
+					src={review.author_details.avatar_path ? `https://media.themoviedb.org/t/p/w45_and_h45_face${review.author_details.avatar_path}` : null}
+					alt={`Avatar of ${review.author_details.name}`}
+					className="review-author-avatar"
+					type="poster"
+				/>
 
 				{/* Author + rating + date */}
 				<div className="flex-column">
@@ -60,10 +56,8 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, movieDetails }) => {
 			</div>
 
 			{/* Review content */}
-			<div className="review-content">
-				{expanded ? parsedFull : previewNodes}
-			</div>
-		</li>
+			<div className="review-content">{expanded ? parsedFull : previewNodes}</div>
+		</div>
 	)
 }
 
