@@ -285,6 +285,15 @@ export interface TVRating {
 	rating: string;
 }
 
+// Trailers
+export interface TrailerItem {
+	id: number
+	title: string
+	backdrop_path?: string | null;
+	videoKey?: string
+	trailerName?: string,
+}
+
 // ===========================
 // TMDB fetch wrapper
 // ===========================
@@ -385,10 +394,7 @@ export const fetchMediaReleaseData = async (type: "movie" | "tv", id: number) =>
 	)
 }
 
-// ===========================
 // Unified fetch for media
-// ===========================
-
 export const fetchFullMedia = async (type: 'movie' | 'tv', id: number) => {
 	const [details, credits, images, videos] = await Promise.all([
 		fetchMediaDetails(type, id),
@@ -408,4 +414,28 @@ export const fetchFullMedia = async (type: 'movie' | 'tv', id: number) => {
 		images: MediaImages
 		videos: Video[]
 	}
+}
+
+// Fetch latest upcoming movies with trailers
+export const fetchLatestTrailers = async (limit: number = 10) => {
+	// 1. Fetch upcoming movies
+	const upcoming = await fetchTMDB<{ results: MovieDetails[] }>('/movie/upcoming', { page: 1 })
+
+	// 2. For each movie, fetch videos and pick the first YouTube trailer
+	const trailers = await Promise.all(
+		upcoming.results.slice(0, limit).map(async (movie): Promise<{ id: number; title: string; backdrop_path?: string | null; videoKey?: string; trailerName?: string }> => {
+			const videos = await fetchTMDB<MediaVideos>(`/movie/${movie.id}/videos`)
+			const trailer = videos.results.find(v => v.site === 'YouTube' && v.type.toLowerCase() === 'trailer')
+			return {
+				id: movie.id,
+				title: movie.title,
+				backdrop_path: movie.backdrop_path,
+				videoKey: trailer?.key,
+				trailerName: trailer?.name,
+			}
+		})
+	)
+
+	// Return only movies that have trailers
+	return trailers.filter(t => t.videoKey)
 }

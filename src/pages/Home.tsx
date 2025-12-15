@@ -4,7 +4,8 @@ import Footer from '../components/Footer'
 import { fetchPopularMovies, MovieDetails } from '../api/tmdb'
 import SearchBanner from '../components/main/SearchBanner'
 import TrendingMovies from '../components/main/TrendingMovies'
-import '../components/css/HomePage.css'
+import '../components/css/home/HomePage.css'
+import LatestTrailers from '../components/main/LatestTrailers'
 
 const Home: React.FC = () => {
 	const [popularMovies, setPopularMovies] = useState<MovieDetails[]>()
@@ -29,11 +30,15 @@ const Home: React.FC = () => {
 	return (
 		<div className="home-page flex-column">
 			<Header />
-			<main className='flex-column center'>
+			<main className='main flex-column center'>
+				{/* huge banner for search movies and persons */}
 				<SearchBanner />
-				<div className='main-content-wrapper'>
-					<TrendingMovies title="Trending" movies={popularMovies} />
-				</div>	
+
+				{/* popular movies */}
+				<TrendingMovies movies={popularMovies} />
+
+				{/* latest trailers */}
+				<LatestTrailers />
 			</main>
 			<Footer />
 		</div>

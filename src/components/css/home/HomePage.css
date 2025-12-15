@@ -1,0 +1,17 @@
+
+.trending-section,
+.latest-trailer-section {
+    width: 100%;
+    margin-top: 20px;
+}
+.trending-section,
+.latest-trailers {
+    max-width: 1300px;
+}
+.latest-trailer-section {
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transition: all .5s;
+    position: relative;
+}

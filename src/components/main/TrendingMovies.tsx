@@ -2,13 +2,13 @@ import React from 'react'
 import { MovieDetails } from '../../api/tmdb'
 import HorizontalScrollBlock, { HorizontalScrollItem } from '../ui/HorizontalScrollBlock'
 import '../css/HorizontalScrollBlock.css'
+import '../css/home/HomePage.css'
 
 interface MovieSectionProps {
-	title: string
 	movies?: MovieDetails[]
 }
 
-const TrendingMovies: React.FC<MovieSectionProps> = ({ title, movies }) => {
+const TrendingMovies: React.FC<MovieSectionProps> = ({ movies }) => {
 	const moviesList = movies ?? []
 
 	const scrollItems: HorizontalScrollItem[] = moviesList.map((movie) => ({
@@ -22,11 +22,13 @@ const TrendingMovies: React.FC<MovieSectionProps> = ({ title, movies }) => {
 	}))
 
 	return (
-		<HorizontalScrollBlock
-			items={scrollItems}
-			heading={title}
-			ariaLabel="trending-heading"
-		/>
+		<div className='trending-section'>
+			<HorizontalScrollBlock
+				items={scrollItems}
+				heading="Trending"
+				ariaLabel="trending-heading"
+			/>
+		</div>
 	)
 }
 
