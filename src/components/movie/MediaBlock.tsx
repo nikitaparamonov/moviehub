@@ -7,14 +7,33 @@ import MediaTabs from './MediaTabs'
 
 interface MediaBlockProps {
 	media: MovieMedia | null
+	mediaType: MediaType
+	mediaId: number
 }
 
+type MediaType = 'movie' | 'tv'
 export type MediaTab = 'videos' | 'backdrops' | 'posters'
 
-const MediaBlock: React.FC<MediaBlockProps> = ({ media }) => {
+const MediaBlock: React.FC<MediaBlockProps> = ({ media, mediaType, mediaId }) => {
 	const TMDB_IMG = 'https://image.tmdb.org/t/p'
 	const [activeTab, setActiveTab] = React.useState<MediaTab>('videos')
 	const baseId = useId()
+
+	const getViewAllHref = (mediaType: MediaType, mediaId: number, target: MediaTab) => {
+		switch (target) {
+			case 'videos':
+				return `/${mediaType}/${mediaId}/videos`
+
+			case 'backdrops':
+				return `/${mediaType}/${mediaId}/images/backdrops`
+
+			case 'posters':
+				return `/${mediaType}/${mediaId}/images/posters`
+
+			default:
+				return '#'
+		}
+	}
 
 	// Generate unique IDs for ARIA accessibility
 	const tabs = useMemo(
@@ -87,11 +106,19 @@ const MediaBlock: React.FC<MediaBlockProps> = ({ media }) => {
 		[firstVideos, firstBackdrops, firstPosters, TMDB_IMG],
 	)
 
+	const viewAllHref = getViewAllHref(mediaType, mediaId, activeTab)
+
 	return (
 		<section className="flex-column" aria-labelledby="media-heading">
 			<div className="content-block media-block-menu">
 				<h3>Media</h3>
-				<MediaTabs tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
+				<MediaTabs
+					tabs={tabs}
+					activeTab={activeTab}
+					onTabChange={setActiveTab}
+					viewAllLabel={currentTab.label}
+					viewAllHref={viewAllHref}
+				/>
 			</div>
 
 			<div

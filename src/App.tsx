@@ -8,6 +8,7 @@ import TVPage from './pages/TVPage'
 import AllReviewsPage from './pages/AllReviewsPage'
 import FullReviewPage from './pages/FullReviewPage'
 import FullCastPage from './pages/FullCastPage'
+import MediaPage from './pages/MediaPage'
 
 const App: React.FC = () => {
 	return (
@@ -21,6 +22,9 @@ const App: React.FC = () => {
 				<Route path="/movie/:movieId/reviews" element={<AllReviewsPage />} />
 				<Route path="/review/:reviewId" element={<FullReviewPage />} />
 				<Route path="/:mediaType/:mediaId/cast" element={<FullCastPage />} />
+				<Route path="/:mediaType/:mediaId/videos" element={<MediaPage />} />
+				<Route path="/:mediaType/:mediaId/images/backdrops" element={<MediaPage />} />
+				<Route path="/:mediaType/:mediaId/images/posters" element={<MediaPage />} />
 			</Routes>
 		</Router>
 	)

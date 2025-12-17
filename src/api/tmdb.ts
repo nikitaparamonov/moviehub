@@ -126,7 +126,7 @@ export interface TVDetails extends BaseMedia {
 	status?: string
 	tagline?: string
 	homepage?: string | null
-	created_by: { id: number; name: string; }[]
+	created_by: { id: number; name: string }[]
 	networks?: { id: number; name: string; logo_path?: string | null; origin_country?: string }[]
 	production_companies?: ProductionCompany[]
 	production_countries?: ProductionCountry[]
@@ -195,6 +195,7 @@ export interface Video {
 	name: string
 	site: string
 	type: string
+	published_at: string
 }
 
 export interface MediaVideos {
@@ -224,7 +225,6 @@ export interface TvKeywordsResponse {
 	id: number
 	results: Keyword[]
 }
-
 
 // Reviews
 export interface ReviewAuthorDetails {
@@ -281,17 +281,23 @@ export interface CountryReleaseDates {
 }
 
 export interface TVRating {
-	iso_3166_1: string;
-	rating: string;
+	iso_3166_1: string
+	rating: string
 }
 
 // Trailers
 export interface TrailerItem {
 	id: number
 	title: string
-	backdrop_path?: string | null;
+	backdrop_path?: string | null
 	videoKey?: string
-	trailerName?: string,
+	trailerName?: string
+}
+
+// VideoPage
+export interface MediaVideosPageData {
+	details: MovieDetails | TVDetails
+	videos: Video[]
 }
 
 // ===========================
@@ -360,9 +366,7 @@ export const fetchMediaExternalIds = async (type: 'movie' | 'tv', id: number) =>
 	fetchTMDB<ExternalIDsResponse>(`/${type}/${id}/external_ids`)
 
 export async function fetchKeywords(type: 'movie' | 'tv', id: number) {
-	const data = await fetchTMDB<MovieKeywordsResponse | TvKeywordsResponse>(
-		`/${type}/${id}/keywords`
-	)
+	const data = await fetchTMDB<MovieKeywordsResponse | TvKeywordsResponse>(`/${type}/${id}/keywords`)
 
 	if (type === 'movie') return (data as MovieKeywordsResponse).keywords
 	return (data as TvKeywordsResponse).results
@@ -376,22 +380,18 @@ export const fetchSimilarMedia = async <T extends 'movie' | 'tv'>(type: T, id: n
 	fetchTMDB<{ results: MediaSummary<T>[] }>(`/${type}/${id}/similar`).then((res) => res.results)
 
 // Release dates
-export const fetchMediaReleaseData = async (type: "movie" | "tv", id: number) => {
-	if (type === "movie") {
-		return fetchTMDB<{ results: CountryReleaseDates[] }>(
-			`/${type}/${id}/release_dates`
-		).then((res) => ({
-			type: "movie" as const,
+export const fetchMediaReleaseData = async (type: 'movie' | 'tv', id: number) => {
+	if (type === 'movie') {
+		return fetchTMDB<{ results: CountryReleaseDates[] }>(`/${type}/${id}/release_dates`).then((res) => ({
+			type: 'movie' as const,
 			releaseDates: res.results,
 		}))
 	}
 
-	return fetchTMDB<{ results: TVRating[] }>(`/tv/${id}/content_ratings`).then(
-		(res) => ({
-			type: "tv" as const,
-			ratings: res.results,
-		})
-	)
+	return fetchTMDB<{ results: TVRating[] }>(`/tv/${id}/content_ratings`).then((res) => ({
+		type: 'tv' as const,
+		ratings: res.results,
+	}))
 }
 
 // Unified fetch for media
@@ -423,19 +423,38 @@ export const fetchLatestTrailers = async (limit: number = 10) => {
 
 	// 2. For each movie, fetch videos and pick the first YouTube trailer
 	const trailers = await Promise.all(
-		upcoming.results.slice(0, limit).map(async (movie): Promise<{ id: number; title: string; backdrop_path?: string | null; videoKey?: string; trailerName?: string }> => {
-			const videos = await fetchTMDB<MediaVideos>(`/movie/${movie.id}/videos`)
-			const trailer = videos.results.find(v => v.site === 'YouTube' && v.type.toLowerCase() === 'trailer')
-			return {
-				id: movie.id,
-				title: movie.title,
-				backdrop_path: movie.backdrop_path,
-				videoKey: trailer?.key,
-				trailerName: trailer?.name,
-			}
-		})
+		upcoming.results.slice(0, limit).map(
+			async (
+				movie,
+			): Promise<{
+				id: number
+				title: string
+				backdrop_path?: string | null
+				videoKey?: string
+				trailerName?: string
+			}> => {
+				const videos = await fetchTMDB<MediaVideos>(`/movie/${movie.id}/videos`)
+				const trailer = videos.results.find((v) => v.site === 'YouTube' && v.type.toLowerCase() === 'trailer')
+				return {
+					id: movie.id,
+					title: movie.title,
+					backdrop_path: movie.backdrop_path,
+					videoKey: trailer?.key,
+					trailerName: trailer?.name,
+				}
+			},
+		),
 	)
 
 	// Return only movies that have trailers
-	return trailers.filter(t => t.videoKey)
+	return trailers.filter((t) => t.videoKey)
+}
+
+export const fetchMediaVideosPage = async (type: 'movie' | 'tv', id: number): Promise<MediaVideosPageData> => {
+	const [details, videos] = await Promise.all([fetchMediaDetails(type, id), fetchMediaVideos(type, id)])
+
+	return {
+		details: details,
+		videos: videos.results,
+	}
 }

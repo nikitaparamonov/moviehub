@@ -53,7 +53,7 @@ const TVPage: React.FC = () => {
 							allReviews={data.reviews}
 							randomReview={randomReview}
 						/>
-						<MediaBlock media={data.media} />
+						<MediaBlock media={data.media} mediaType={media.mediaType} mediaId={data.details.id} />
 						{data.similar.length > 0 && <SimilarMedia items={data.similar} type="tv" />}
 					</div>
 

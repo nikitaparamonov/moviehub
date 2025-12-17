@@ -28,9 +28,8 @@ interface MediaInfoProps {
 
 const MediaInfo: React.FC<MediaInfoProps> = ({ media }) => {
 	const dominant = useDominantColor(
-		media.backdrop_path ? `https://image.tmdb.org/t/p/w780${media.backdrop_path}` : undefined,
+		media.backdrop_path ? `https://image.tmdb.org/t/p/w780${media.backdrop_path}` : '',
 	)
-	const [r, g, b] = dominant || [20, 20, 20]
 	const backdropUrl = media.backdrop_path ? `url(https://image.tmdb.org/t/p/original${media.backdrop_path})` : 'none'
 
 	return (
@@ -38,7 +37,7 @@ const MediaInfo: React.FC<MediaInfoProps> = ({ media }) => {
 			className="movie-info-wrapper"
 			style={
 				{
-					'--dominant-color': `rgb(${r},${g},${b})`,
+					'--dominant-color': dominant,
 					'--backdrop-url': backdropUrl,
 				} as React.CSSProperties
 			}

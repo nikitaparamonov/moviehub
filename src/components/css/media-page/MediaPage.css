@@ -1,0 +1,15 @@
+.media-page {
+    width: 100%;
+}
+.media-page-content {
+    width: 100%;
+}
+.media-page-content-wrapper {
+    max-width: 1400px;
+    width: 100%;
+    padding: 30px 40px;
+}
+.video-list {
+    margin-left: 30px;
+    width: 100%;
+}

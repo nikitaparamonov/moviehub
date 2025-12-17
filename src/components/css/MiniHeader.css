@@ -1,6 +1,6 @@
 .mini-header {
     width: 100%;
-    background: linear-gradient(to bottom right, rgba(31.5, 10.5, 10.5, 1), rgba(31.5, 10.5, 10.5, 0.84));
+    background: linear-gradient(to bottom right, rgba(var(--dominant-color), 1), rgba(var(--dominant-color), 0.84));
     color: var(--text-light);
 }
 .mini-header-wrapper {
