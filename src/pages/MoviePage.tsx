@@ -9,7 +9,7 @@ import SimilarMedia from '../components/movie/SimilarMedia'
 import MovieReviewBlock from '../components/movie/MovieReviewBlock'
 import { useMediaPageData } from '../components/hooks/useMediaPageData'
 import MediaSidebar from '../components/movie/MediaSidebar'
-
+import '../components/css/movie-page/MoviePage.css'
 
 interface GroupedCrew {
 	id: number

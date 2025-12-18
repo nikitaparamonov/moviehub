@@ -4,6 +4,7 @@ import VideoCard from './VideoCard'
 import Empty from '../Empty'
 import { ImageWithFallback } from '../ui/ImageWithFallback'
 import MediaTabs from './MediaTabs'
+import "../css/movie-page/MediaBlock.css"
 
 interface MediaBlockProps {
 	media: MovieMedia | null

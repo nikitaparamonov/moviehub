@@ -3,12 +3,12 @@ import React, { ReactElement } from 'react'
 /**
  * Parse inline markdown formatting in a single line.
  * - **bold** -> <strong>bold</strong>
- * - _italic_ or *italic* -> <em>italic</em>
+ * - _italic_ or *italic* or <em>italic</em> -> <em>italic</em>
  */
 export function parseInlineFormatting(line: string): React.ReactNode[] {
 	const nodes: React.ReactNode[] = []
 	// Order matters: ** must be matched before * or _
-	const re = /\*\*(.+?)\*\*|_([^_]+)_|\*([^*]+)\*/g
+	const re = /\*\*(.+?)\*\*|_([^_]+)_|\*([^*]+)\*|<em>(.+?)<\/em>/g
 	let lastIndex = 0
 
 	// Use matchAll for cleaner iteration over all matches
@@ -18,10 +18,11 @@ export function parseInlineFormatting(line: string): React.ReactNode[] {
 		// Push plain text before current match
 		if (index > lastIndex) nodes.push(line.slice(lastIndex, index))
 
-		// m[1] = bold, m[2] = _italic_, m[3] = *italic*
+		// m[1] = bold, m[2] = _italic_, m[3] = *italic*, m[4] = <em>italic</em>
 		if (m[1]) nodes.push(<strong key={nodes.length}>{m[1]}</strong>)
 		else if (m[2]) nodes.push(<em key={nodes.length}>{m[2]}</em>)
 		else if (m[3]) nodes.push(<em key={nodes.length}>{m[3]}</em>)
+		else if (m[4]) nodes.push(<em key={nodes.length}>{m[4]}</em>)
 
 		lastIndex = index + m[0].length
 	}

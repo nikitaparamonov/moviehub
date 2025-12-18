@@ -2,9 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useDominantColor } from '../hooks/useDominantColor'
 import { formatRuntime, getYear } from '../../utils/date'
-import '../css/MoviePage.css'
 import { CrewCredit, Genre } from '../../api/tmdb'
 import { ImageWithFallback } from '../ui/ImageWithFallback'
+import "../css/movie-page/MovieHeader.css"
 
 export interface MediaBase {
 	id: number

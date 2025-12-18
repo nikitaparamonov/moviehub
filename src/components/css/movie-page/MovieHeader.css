@@ -1,0 +1,96 @@
+/* ==========================
+   MOVIE POSTER & INFO
+   ========================== */
+
+.movie-info {
+	position: relative;
+	z-index: 2;
+	width: 100%;
+	max-width: 1400px;
+}
+.movie-poster {
+	width: 300px;
+	flex: 0 0 300px;
+	border-radius: var(--border-radius);
+	object-fit: cover;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+.movie-title {
+	font-size: 2rem;
+	margin: 0 0 5px 0;
+}
+.movie-year {
+	opacity: 0.8;
+	font-weight: 400;
+}
+.movie-header-info {
+	margin-top: 20px;
+}
+.movie-tagline {
+	font-style: italic;
+	color: #fff;
+	opacity: 0.7;
+	font-weight: 500;
+	margin: 0;
+}
+.overview-title {
+	font-size: 1.2rem;
+	margin: 10px 0;
+	letter-spacing: 0.2px;
+}
+.movie-overview {
+	margin: 0;
+}
+
+/* ==========================
+   FACTS / CERTIFICATIONS
+   ========================== */
+
+.movie-facts {
+	align-items: center;
+}
+.movie-facts span + span::before {
+	content: '•';
+	margin: 0 8px;
+	color: var(--text-light);
+}
+.facts-certification {
+	border: 1px solid var(--text-light);
+	border-radius: 4px;
+	color: var(--text-light);
+	padding: 1px 4px;
+}
+
+/* ==========================
+   HEADER CREW
+   ========================== */
+
+.movie-header-crew {
+	flex-wrap: wrap;
+	margin-top: 20px;
+	list-style: none;
+	padding-left: 0;
+}
+.crew-person {
+	width: 33%;
+	flex-basis: 33%;
+	text-align: left;
+	box-sizing: border-box;
+	padding-right: 20px;
+	min-width: 140px;
+}
+.crew-person:nth-child(n + 4) a:first-child {
+	/* Adds spacing for rows beyond the first, creating visual separation between rows */
+	padding-top: 20px;
+}
+.crew-person-name {
+	display: block;
+	font-weight: 700;
+	margin: 0;
+	text-decoration: none;
+	color: #fff;
+}
+.crew-person-job {
+	margin: 0;
+	font-size: 0.9em;
+}

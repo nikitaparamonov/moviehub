@@ -9,7 +9,12 @@
     width: 100%;
     padding: 30px 40px;
 }
-.video-list {
-    margin-left: 30px;
+.video-list,
+.backdrop-list,
+.poster-list {
     width: 100%;
+}
+.backdrop-list,
+.poster-list {
+    flex: 1 1 calc(33.333% - 10px)
 }

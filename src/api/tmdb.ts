@@ -182,6 +182,7 @@ export interface Image {
 	file_path: string
 	width: number
 	height: number
+	iso_639_1: string
 }
 
 export interface MediaImages {
@@ -298,6 +299,18 @@ export interface TrailerItem {
 export interface MediaVideosPageData {
 	details: MovieDetails | TVDetails
 	videos: Video[]
+}
+
+// BackdropsPage
+export interface MediaVideosBackdropsData {
+	details: MovieDetails | TVDetails
+	backdrops: Image[]
+}
+
+// PostersPage
+export interface MediaVideosPostersData {
+	details: MovieDetails | TVDetails
+	posters: Image[]
 }
 
 // ===========================
@@ -456,5 +469,23 @@ export const fetchMediaVideosPage = async (type: 'movie' | 'tv', id: number): Pr
 	return {
 		details: details,
 		videos: videos.results,
+	}
+}
+
+export const fetchMediaBackdropsPage = async (type: 'movie' | 'tv', id: number): Promise<MediaVideosBackdropsData> => {
+	const [details, images] = await Promise.all([fetchMediaDetails(type, id), fetchMediaImages(type, id)])
+
+	return {
+		details: details,
+		backdrops: images.backdrops,
+	}
+}
+
+export const fetchMediaPostersPage = async (type: 'movie' | 'tv', id: number): Promise<MediaVideosPostersData> => {
+	const [details, images] = await Promise.all([fetchMediaDetails(type, id), fetchMediaImages(type, id)])
+
+	return {
+		details: details,
+		posters: images.posters,
 	}
 }

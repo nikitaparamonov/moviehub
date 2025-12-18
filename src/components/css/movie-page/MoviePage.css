@@ -1,0 +1,123 @@
+/* ==========================
+   PAGE WRAPPER
+   ========================== */
+
+.movie-page {
+	align-items: center;
+}
+
+.loading,
+.error {
+	text-align: center;
+	font-size: 18px;
+	padding: 20px;
+}
+
+/* ==========================
+   MOVIE INFO WRAPPER
+   ========================== */
+
+.movie-info-wrapper {
+	/* Uses a backdrop image with a dark overlay using CSS variables for dynamic theming */
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	padding: 30px 0;
+	width: 100%;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: left calc((50vw - 170px) - 340px) top;
+	background-color: var(--dominant-color);
+	background-image: var(--backdrop-url, none);
+	background-blend-mode: overlay;
+	color: white;
+	overflow: hidden;
+}
+.movie-info-wrapper::before {
+	/* Creates a gradient overlay to smoothly fade the background image from left to right */
+	content: '';
+	position: absolute;
+	inset: 0;
+	background-image: linear-gradient(
+		to right,
+		rgba(var(--dominant-color), 1) calc((50vw - 170px) - 340px),
+		rgba(var(--dominant-color), 0.84) 50%,
+		rgba(var(--dominant-color), 0.84) 100%
+	);
+	z-index: 1;
+}
+
+/* ==========================
+   COLUMNS
+   ========================== */
+
+.movie-column-wrapper {
+	margin: 30px;
+	max-width: 1400px;
+}
+.movie-column-left {
+	width: calc(100vw - 60px - 260px);
+	max-width: calc(1400px - 260px);
+	padding-right: 30px;
+}
+.movie-sidebar {
+	min-width: 260px;
+	width: 260px;
+}
+
+/* ==========================
+   CAST BLOCK
+   ========================== */
+
+.cast-card {
+	text-align: left;
+	line-height: 24px;
+}
+.cast-card-img-wrapper {
+	height: 200px;
+}
+.cast-name {
+	font-weight: 700;
+	margin: 0;
+	padding: 10px 10px 0;
+}
+.cast-role {
+	font-size: 0.9em;
+	margin: 0;
+	padding: 0 10px 10px;
+}
+
+
+
+/* ==========================
+   RELEASE INFO
+   ========================== */
+
+.movie-release-info {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+.movie-release-info p {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+}
+.media-network-logo {
+	width: fit-content;
+	height: 30px;
+}
+
+/* ==========================
+   KEYWORDS
+   ========================== */
+
+.keyword-btn {
+	background-color: #efefef;
+	margin: 2px;
+	padding: 5px;
+	cursor: pointer;
+	border-radius: 5px;
+	border: 1px solid #a4a4a4;
+}

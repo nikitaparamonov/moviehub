@@ -22,9 +22,11 @@ const App: React.FC = () => {
 				<Route path="/movie/:movieId/reviews" element={<AllReviewsPage />} />
 				<Route path="/review/:reviewId" element={<FullReviewPage />} />
 				<Route path="/:mediaType/:mediaId/cast" element={<FullCastPage />} />
-				<Route path="/:mediaType/:mediaId/videos" element={<MediaPage />} />
-				<Route path="/:mediaType/:mediaId/images/backdrops" element={<MediaPage />} />
-				<Route path="/:mediaType/:mediaId/images/posters" element={<MediaPage />} />
+				<Route path="/:mediaType/:mediaId">
+					<Route path="videos" element={<MediaPage contentType="videos" />} />
+					<Route path="images/backdrops" element={<MediaPage contentType="images/backdrops" />} />
+					<Route path="images/posters" element={<MediaPage contentType="images/posters" />} />
+				</Route>
 			</Routes>
 		</Router>
 	)

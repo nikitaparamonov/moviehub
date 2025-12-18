@@ -3,6 +3,7 @@ import { MovieDetails, TVDetails, type Review } from '../../api/tmdb'
 import { Link } from 'react-router-dom'
 import ReviewCard from './ReviewCard'
 import Empty from '../Empty'
+import "../css/movie-page/ReviewsBlock.css"
 
 interface MovieReviewBlockProps {
 	movieDetails: MovieDetails | TVDetails

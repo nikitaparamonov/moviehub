@@ -1,7 +1,8 @@
 import type { MediaPanelItem } from '../components/media-page/MediaPanel'
 import type { Video, Image } from '../api/tmdb'
+import { getLanguageName } from './lang'
 
-type MediaDataItem = Video | (Image & { country?: string }) // add optional country
+type MediaDataItem = Video | Image
 
 // Fixed video tab order
 const movieVideoTypes = ['Trailers', 'Teasers', 'Clips', 'Behind the Scenes', 'Bloopers', 'Featurettes']
@@ -48,9 +49,9 @@ export const getMediaTabsForPanel = (
 	const grouped = items.reduce<Record<string, MediaDataItem[]>>((acc, item) => {
 		let key: string
 
-		if ('country' in item && item.country) {
+		if ('iso_639_1' in item) {
 			// Group images by country
-			key = item.country
+			key = getLanguageName(item.iso_639_1) || 'No Language'
 		} else {
 			// fallback
 			key = defaultType ?? 'Other'
