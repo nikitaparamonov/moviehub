@@ -5,7 +5,13 @@
     background-color: #fff;
     overflow: hidden;
     z-index: 0;
+    height: fit-content;
+}
+.backdrop-list .image-card-wrapper {
     width: 330px;
+}
+.poster-list .image-card-wrapper {
+    width: 250px;
 }
 .image-card-img {
     width: 100%;

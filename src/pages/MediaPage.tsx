@@ -6,7 +6,7 @@ import {
 	fetchMediaVideosPage,
 	MediaVideosBackdropsData,
 	MediaVideosPageData,
-	MediaVideosPostersData
+	MediaVideosPostersData,
 } from '../api/tmdb'
 import { getMediaTabsForPanel, normalizeTabName } from '../utils/getMediaTabsForPanel'
 import VideoCard from '../components/media-page/VideoCard'
@@ -15,6 +15,7 @@ import MediaPanel, { MediaPanelItem } from '../components/media-page/MediaPanel'
 import ImageCard from '../components/media-page/ImageCard'
 import '../components/css/media-page/MediaPage.css'
 import { useDominantColor } from '../components/hooks/useDominantColor'
+import { getLanguageName } from '../utils/lang'
 
 /** URL params from React Router */
 type RouteParams = {
@@ -45,7 +46,7 @@ type MediaConfig<K extends keyof MediaDataMap> = {
 const FETCHERS = {
 	videos: fetchMediaVideosPage,
 	'images/backdrops': fetchMediaBackdropsPage,
-	'images/posters': fetchMediaPostersPage
+	'images/posters': fetchMediaPostersPage,
 } as const
 
 const MediaPage = ({ contentType }: MediaPageProps) => {
@@ -66,9 +67,7 @@ const MediaPage = ({ contentType }: MediaPageProps) => {
 
 	// Extract dominant color from backdrop for panel styling
 	const dominant = useDominantColor(
-		data?.details.backdrop_path
-			? `https://image.tmdb.org/t/p/w780${data.details.backdrop_path}`
-			: ''
+		data?.details.backdrop_path ? `https://image.tmdb.org/t/p/w780${data.details.backdrop_path}` : '',
 	)
 
 	/** Fetch correct media data when route or contentType changes */
@@ -107,54 +106,50 @@ const MediaPage = ({ contentType }: MediaPageProps) => {
 	const config: { [K in keyof MediaDataMap]: MediaConfig<K> } = {
 		videos: {
 			title: 'Videos',
-			items: (data) =>
-				getMediaTabsForPanel(data.videos, mediaType!, Number(mediaId), 'videos', 'Other'),
+			items: (data) => getMediaTabsForPanel(data.videos, mediaType!, Number(mediaId), 'videos', 'Other'),
 			content: (data) => (
 				<section className="video-list flex-column gap-30">
 					{data.videos
-						.filter(v => v.type === normalizeTabName(activeType))
-						.map(v => <VideoCard key={v.key} video={v} />)}
+						.filter((v) => v.type === normalizeTabName(activeType))
+						.map((v) => (
+							<VideoCard key={v.key} video={v} />
+						))}
 				</section>
-			)
+			),
 		},
 
 		'images/backdrops': {
 			title: 'Backdrops',
 			items: (data) =>
-				getMediaTabsForPanel(
-					data.backdrops,
-					mediaType!,
-					Number(mediaId),
-					'images/backdrops',
-					'Other'
-				),
-			content: (data) => (
-				<section className="backdrop-list flex flex-wrap gap-10">
-					{data.backdrops.map(b => (
-						<ImageCard key={b.file_path} image={b} />
-					))}
-				</section>
-			)
+				getMediaTabsForPanel(data.backdrops, mediaType!, Number(mediaId), 'images/backdrops', 'Other'),
+			content: (data) => {
+				const filteredBackdrops = data.backdrops.filter((p) => getLanguageName(p.iso_639_1) === activeType)
+
+				return (
+					<section className="backdrop-list flex flex-wrap gap-10">
+						{filteredBackdrops.map((p) => (
+							<ImageCard key={p.file_path} image={p} type="backdrop" />
+						))}
+					</section>
+				)
+			},
 		},
 
 		'images/posters': {
 			title: 'Posters',
-			items: (data) =>
-				getMediaTabsForPanel(
-					data.posters,
-					mediaType!,
-					Number(mediaId),
-					'images/posters',
-					'Other'
-				),
-			content: (data) => (
-				<section className="poster-list flex flex-wrap gap-10">
-					{data.posters.map(b => (
-						<ImageCard key={b.file_path} image={b} />
-					))}
-				</section>
-			)
-		}
+			items: (data) => getMediaTabsForPanel(data.posters, mediaType!, Number(mediaId), 'images/posters', 'Other'),
+			content: (data) => {
+				const filteredPosters = data.posters.filter((p) => getLanguageName(p.iso_639_1) === activeType)
+
+				return (
+					<section className="poster-list flex flex-wrap gap-10">
+						{filteredPosters.map((p) => (
+							<ImageCard key={p.file_path} image={p} type="poster" />
+						))}
+					</section>
+				)
+			},
+		},
 	}
 
 	// Values resolved based on current contentType

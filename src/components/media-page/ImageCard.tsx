@@ -3,24 +3,34 @@ import '../css/media-page/ImageCard.css'
 
 type ImageCardProps = {
 	image: Image
+	type: string
 }
 
 const BASE_URL = 'https://media.themoviedb.org/t/p/'
-const PREVIEW_SIZE = 'w500_and_h282_face'
+const PREVIEW_SIZE_BACKDROP = 'w500_and_h282_face'
+const PREVIEW_SIZE_POSTER = 'w342'
 const ORIGINAL_SIZE = 'original'
 
-const ImageCard = ({ image }: ImageCardProps) => {
-	const previewSrc = `${BASE_URL}${PREVIEW_SIZE}${image.file_path}`
+const ImageCard = ({ image, type }: ImageCardProps) => {
+	let previewSrc = ''
 	const originalSrc = `${BASE_URL}${ORIGINAL_SIZE}${image.file_path}`
+
+	if (type === 'backdrop') {
+		previewSrc = `${BASE_URL}${PREVIEW_SIZE_BACKDROP}${image.file_path}`
+	} else if (type === 'poster') {
+		previewSrc = `${BASE_URL}${PREVIEW_SIZE_POSTER}${image.file_path}`
+	}
 
 	return (
 		<div className="image-card-wrapper">
-			<img
-				src={previewSrc}
-				alt={`Media backdrop/poster (${image.width}×${image.height})`}
-				className="image-card-img"
-				loading="lazy"
-			/>
+			<a href={originalSrc} className="image-wrapper">
+				<img
+					src={previewSrc}
+					alt={`Media backdrop/poster (${image.width}×${image.height})`}
+					className="image-card-img"
+					loading="lazy"
+				/>
+			</a>
 
 			<div className="info-wrapper">
 				<h3 className="info-title">
@@ -30,11 +40,7 @@ const ImageCard = ({ image }: ImageCardProps) => {
 				<div className="info-content flex-column gap-10">
 					<div>
 						<h4 className="info-subtitle">Added By</h4>
-						<p className="info-subtitle-content">
-							<a href="/" aria-disabled>
-								name 
-							</a>
-						</p>
+						<p className="info-subtitle-content">Admin</p>
 					</div>
 
 					<div>
@@ -46,7 +52,7 @@ const ImageCard = ({ image }: ImageCardProps) => {
 								rel="noopener noreferrer"
 								title="View original image size"
 							>
-								Original size
+								{image.width}×{image.height}
 							</a>
 						</p>
 					</div>

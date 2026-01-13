@@ -14,7 +14,9 @@
 .poster-list {
     width: 100%;
 }
-.backdrop-list,
-.poster-list {
+.backdrop-list {
     flex: 1 1 calc(33.333% - 10px)
+}
+.poster-list {
+    flex: 1 1 calc(25% - 10px)
 }

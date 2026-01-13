@@ -62,7 +62,15 @@ export const getMediaTabsForPanel = (
 		return acc
 	}, {})
 
-	return Object.entries(grouped).map(([type, groupItems]) => ({
+	const sortedTabs = Object.entries(grouped).sort(([a], [b]) => {
+		if (a === 'English') return -1 
+		if (b === 'English') return 1
+		if (a === 'No Language') return -1 
+		if (b === 'No Language') return 1
+		return a.localeCompare(b)
+	})
+
+	return sortedTabs.map(([type, groupItems]) => ({
 		type,
 		count: groupItems.length,
 		href: `/${mediaType}/${mediaId}/${basePath}?active_nav_item=${encodeURIComponent(type)}`,

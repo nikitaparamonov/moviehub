@@ -322,7 +322,8 @@ const DEFAULT_PARAMS = { language: 'en-US', page: 1 }
 async function fetchTMDB<T>(endpoint: string, params: Record<string, string | number> = {}): Promise<T> {
 	if (!API_KEY) throw new Error('TMDB API key is missing')
 
-	const allParams = { api_key: API_KEY, ...DEFAULT_PARAMS, ...params }
+	const isImagesEndpoint = endpoint.endsWith('/images')
+	const allParams = { api_key: API_KEY, ...(isImagesEndpoint ? {} : DEFAULT_PARAMS), ...params }
 
 	const query = new URLSearchParams(
 		Object.fromEntries(Object.entries(allParams).map(([key, value]) => [key, String(value)])),
