@@ -9,7 +9,7 @@ import LatestTrailers from '../components/main/LatestTrailers'
 
 const Home: React.FC = () => {
 	const [popularMovies, setPopularMovies] = useState<MovieDetails[]>()
-	const [loadingPopular, setLoadingPopular] = useState(true)
+	const [, setLoadingPopular] = useState(true)
 
 	// Fetch popular movies on mount
 	useEffect(() => {
