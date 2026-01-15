@@ -1,16 +1,17 @@
 import React from 'react'
 import './css/Header.css'
 import logo from './icons/movie-hub-logo.svg'
+import { Link } from 'react-router-dom'
 
 const Header: React.FC = () => {
 	return (
 		<header className="header center">
 			<div className="header-container flex-row justify-between">
 				<div className="header-logo-container">
-					<a href="/" className="flex-row">
+					<Link to="/" className="flex-row">
 						<img src={logo} alt="MovieHub Logo" className="header-logo-image" />
 						<span className="header-logo-text">MovieHub</span>
-					</a>
+					</Link>
 				</div>
 				<nav className="nav">
 					<a href="/movies">Movies</a>
