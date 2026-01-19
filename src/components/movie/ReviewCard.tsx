@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { MovieDetails, TVDetails, type Review } from '../../api/tmdb'
-import { formatDate } from '../../utils/date'
+import { formatDateLong } from '../../utils/date'
 import { Link } from 'react-router-dom'
 import { createPreviewNodes, parseReview } from '../../utils/parseReview'
 import { ImageWithFallback } from '../ui/ImageWithFallback'
@@ -50,7 +50,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, movieDetails }) => {
 						{review.author_details.rating != null && (
 							<span className="review-rating">Rating: {review.author_details.rating}/10</span>
 						)}
-						<span className="review-date"> Written on {formatDate(review.created_at)}</span>
+						<span className="review-date"> Written on {formatDateLong(review.created_at)}</span>
 					</div>
 				</div>
 			</div>

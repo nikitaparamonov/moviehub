@@ -14,8 +14,8 @@ const Header: React.FC = () => {
 					</Link>
 				</div>
 				<nav className="nav">
-					<a href="/movies">Movies</a>
-					<a href="/series">Series</a>
+					<Link to="/movie">Movies</Link>
+					<Link to="/tv">Series</Link>
 				</nav>
 			</div>
 		</header>

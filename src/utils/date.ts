@@ -1,10 +1,23 @@
 // Format a date string to "Month Day, Year" ("February 17, 2017")
-export const formatDate = (dateString?: string): string => {
+export const formatDateLong = (dateString?: string): string => {
 	if (!dateString) return ''
 	const date = new Date(dateString)
 	return date.toLocaleDateString('en-US', {
 		year: 'numeric',
 		month: 'long',
+		day: 'numeric',
+	})
+}
+
+// Format a date string to "Mon Day, Year" ("Jan 16, 2017")
+export const formatDateShort = (dateString?: string): string => {
+	if (!dateString) return ''
+
+	const date = new Date(dateString)
+
+	return date.toLocaleDateString('en-US', {
+		year: 'numeric',
+		month: 'short',
 		day: 'numeric',
 	})
 }

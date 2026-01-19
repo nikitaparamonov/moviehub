@@ -9,12 +9,16 @@ import AllReviewsPage from './pages/AllReviewsPage'
 import FullReviewPage from './pages/FullReviewPage'
 import FullCastPage from './pages/FullCastPage'
 import MediaPage from './pages/MediaPage'
+import MoviesPage from './pages/MoviesPage'
+import TVsPage from './pages/TVsPage'
 
 const App: React.FC = () => {
 	return (
 		<Router>
 			<Routes>
 				<Route path="/" element={<Home />} />
+				<Route path="/movie" element={<MoviesPage />} />
+				<Route path="/tv" element={<TVsPage />} />
 				<Route path="/search" element={<SearchPage />} />
 				<Route path="/person/:id" element={<PersonPage />} />
 				<Route path="/movie/:id" element={<MoviePage />} />

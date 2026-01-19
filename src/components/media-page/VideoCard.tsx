@@ -1,5 +1,5 @@
 import { Video } from '../../api/tmdb'
-import { formatDate } from '../../utils/date'
+import { formatDateLong } from '../../utils/date'
 import '../css/media-page/VideoCard.css'
 import { ReactComponent as YouTubeIcon } from '../icons/youtube.svg'
 
@@ -25,7 +25,7 @@ const VideoCard = ({ video }: VideoCardProps) => {
 					<h2 className="vc-info-title">{video.name}</h2>
 					<h3 className="vc-info-subtitle">
 						<span>{video.type}</span>
-						<span>{formatDate(video.published_at)}</span>
+						<span>{formatDateLong(video.published_at)}</span>
 					</h3>
 				</div>
 				<div className="vc-info-footer">

@@ -2,9 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { ImageWithFallback } from './ImageWithFallback'
 
-/**
- * Universal horizontal scroll block
- */
+// Universal horizontal scroll block
 export interface HorizontalScrollItem {
 	id: number | string
 	to: string

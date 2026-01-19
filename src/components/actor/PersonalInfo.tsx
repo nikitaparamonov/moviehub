@@ -1,5 +1,5 @@
 import { PersonDetails } from "../../api/tmdb"
-import { formatDate } from '../../utils/date'
+import { formatDateLong } from '../../utils/date'
 
 interface PersonalInfoProps {
     person: PersonDetails
@@ -39,7 +39,7 @@ const PersonalInfo: React.FC<PersonalInfoProps> = ({person}) => {
 						<strong>
 							<bdi>Birthday</bdi>
 						</strong>
-						{formatDate(person.birthday)}
+						{formatDateLong(person.birthday)}
 					</p>
 				)}
 				{person.place_of_birth != null && (

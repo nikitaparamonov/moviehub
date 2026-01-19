@@ -20,6 +20,11 @@ html {
 	overflow-y: scroll;
 }
 
+h2, h3 {
+	letter-spacing: 0.5px;
+	margin: 0;
+}
+
 /* ==========================
    VARIABLES
    ========================== */

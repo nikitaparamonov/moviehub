@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import './../css/Search.css'
 import { SearchResult, MovieDetails, TVDetails, Person } from '../../api/tmdb'
 import NoImageIcon from '../icons/NoImageIcon.svg'
-import { formatDate } from '../../utils/date'
+import { formatDateLong } from '../../utils/date'
 
 const IMG = 'https://image.tmdb.org/t/p/w300'
 
@@ -74,7 +74,7 @@ const SearchCard: React.FC<Props> = ({ item }) => {
 										(work as TVDetails & { media_type: 'tv' }).first_air_date
 									return (
 										<li key={work.id}>
-											<b>{workTitle}</b> ({workDate ? formatDate(workDate) : 'Unknown'})
+											<b>{workTitle}</b> ({workDate ? formatDateLong(workDate) : 'Unknown'})
 										</li>
 									)
 								})}
@@ -87,7 +87,7 @@ const SearchCard: React.FC<Props> = ({ item }) => {
 				{isMovieTV(item) && (
 					<>
 						<h3 style={{ marginBottom: 0 }}>{getTitle(item)}</h3>
-						{getReleaseDate(item) && <p style={{ marginTop: 0 }}>{formatDate(getReleaseDate(item)!)}</p>}
+						{getReleaseDate(item) && <p style={{ marginTop: 0 }}>{formatDateLong(getReleaseDate(item)!)}</p>}
 						<p>{item.overview ?? 'No description available.'}</p>
 					</>
 				)}

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useLocation, Link } from 'react-router-dom'
 import { MovieDetails, TVDetails, type Review } from '../api/tmdb'
-import { formatDate, getYear } from '../utils/date'
+import { formatDateLong, getYear } from '../utils/date'
 import '../components/css/ReviewPage.css'
 import { parseReview } from '../utils/parseReview'
 
@@ -49,7 +49,7 @@ const FullReviewPage: React.FC = () => {
 
 					<div className="flex-row full-review-author">
 						<div className='full-review-rating'>Rating: {review.author_details.rating}/10</div>
-						<h3 className="full-review-date"> Written by {review.author_details.name} on {formatDate(review.created_at)}</h3>
+						<h3 className="full-review-date"> Written by {review.author_details.name} on {formatDateLong(review.created_at)}</h3>
 					</div>
 
 					<article className="full-review-content-text">

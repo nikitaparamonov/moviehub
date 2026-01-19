@@ -1,0 +1,77 @@
+.filter-panel {
+    min-width: 260px;
+    width: 260px;
+    height: min-content;
+    border: 1px solid #e3e3e3;
+    border-radius: var(--border-radius);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    overflow: hidden;
+}
+.filter-panel-title {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding: 14px 16px;
+}
+.filter-panel-title h2 {
+    display: inline-flex;
+    font-size: 1.1em;
+    justify-content: space-between;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    font-weight: 600;
+}
+.filter-panel-item {
+    width: 100%;
+    border-top: 1px solid #eee;
+    padding: 14px 16px 16px;
+}
+.filter-panel-item h3 {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    font-size: 1em;
+    font-weight: 300;
+    margin-bottom: 10px;
+}
+.filter-panel-field {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: unset;
+}
+.filter-panel-field .radio {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    cursor: pointer;
+}
+.filter-panel-field .radio-label {
+    margin-left: 8px;
+    cursor: pointer;
+}
+.filter-panel-item .list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.filter-panel-item .list-item {
+    display: inline-flex;
+    border: 1px solid #9e9e9e;
+    border-radius: 14px;
+    padding: 4px 12px;
+    font-size: .9em;
+    margin-right: 6px;
+    margin-top: 8px;
+    cursor: pointer;
+}
+.filter-panel-item .list-item:hover {
+    background-color: var(--light-blue);
+    color: #fff;
+    border-color: var(--light-blue);
+}

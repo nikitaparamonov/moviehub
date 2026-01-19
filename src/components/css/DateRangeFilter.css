@@ -1,0 +1,36 @@
+.date-range-column {
+	display: flex;
+	gap: 10px;
+	width: 100%;
+}
+.date-input-wrapper {
+	position: relative;
+	width: 100%;
+}
+.date-input-wrapper span {
+    display: inline-flex;
+    align-items: center;
+	width: 100px;
+    color: #a4a4a4;
+    font-size: 0.9em;
+}
+.date-input-wrapper input {
+	width: 100%;
+	padding: 8px 12px;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+	font-size: 14px;
+	box-sizing: border-box;
+}
+.date-input-wrapper input::-webkit-calendar-picker-indicator {
+	opacity: 0;
+	cursor: pointer;
+}
+.date-input-wrapper::after {
+	content: '📅';
+	position: absolute;
+	right: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	pointer-events: none;
+}

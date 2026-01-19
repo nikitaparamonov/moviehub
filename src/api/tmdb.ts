@@ -286,6 +286,12 @@ export interface TVRating {
 	rating: string
 }
 
+export type Certification = {
+	certification: string
+	meaning: string
+	order: number
+}
+
 // Trailers
 export interface TrailerItem {
 	id: number
@@ -489,4 +495,14 @@ export const fetchMediaPostersPage = async (type: 'movie' | 'tv', id: number): P
 		details: details,
 		posters: images.posters,
 	}
+}
+
+export const fetchMovieGenres = async (): Promise<Genre[]> => {
+	const data = await fetchTMDB<{ genres: Genre[] }>('/genre/movie/list')
+	return data.genres
+}
+
+export const fetchMovieCertifications = async (country = 'US'): Promise<Certification[]> => {
+	const data = await fetchTMDB<{ certifications: Record<string, Certification[]> }>('/certification/movie/list')
+	return data.certifications[country] || []
 }
