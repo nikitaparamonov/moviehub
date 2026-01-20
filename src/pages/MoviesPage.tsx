@@ -1,54 +1,186 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import {
 	Certification,
+	fetchDiscoverMovies,
+	fetchLanguages,
 	fetchMovieCertifications,
 	fetchMovieGenres,
-	fetchPopularMovies,
 	Genre,
+	Language,
 	MovieDetails,
+	MoviesFilterForm,
 } from '../api/tmdb'
 import '../components/css/MoviesPage.css'
-import '../components/css/FilterPanel.css'
 import { formatDateShort } from '../utils/date'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { ImageWithFallback } from '../components/ui/ImageWithFallback'
-import DateRangeFilter from '../components/ui/DateRangeFilter'
+import { MovieFilters } from '../components/movies-page/MovieFilters'
 
 const MoviesPage: React.FC = () => {
+	const [searchParams, setSearchParams] = useSearchParams()
 	const [popularMovies, setPopularMovies] = useState<MovieDetails[]>([])
 	const [genres, setGenres] = useState<Genre[]>([])
 	const [certifications, setCertifications] = useState<Certification[]>([])
-	const [, setLoadingPopular] = useState(true)
-	const [filters, setFilters] = useState({
+	const [languages, setLanguages] = useState<Language[]>([])
+	const [page, setPage] = useState(1)
+	const [totalPages, setTotalPages] = useState(1)
+	const [loading, setLoading] = useState(false)
+	const [error, setError] = useState<string | null>(null)
+
+	const [form, setForm] = useState<MoviesFilterForm>({
+		showMe: 'everything',
+		language: null,
+		genres: [],
+		certifications: [],
 		from: '',
 		to: '',
 	})
 
-	// Fetch movies, genres and certifications when component mounts
+	const sentinelRef = useRef<HTMLDivElement | null>(null)
+
+	// ==========================
+	// Helper functions
+	// ==========================
+	const fetchMoviesPage = async (form: MoviesFilterForm, pageToLoad: number = 1, append: boolean = false) => {
+		setLoading(true)
+		setError(null)
+
+		try {
+			const data = await fetchDiscoverMovies(form, pageToLoad)
+			setPopularMovies((prev) => (append ? [...prev, ...data.results] : data.results))
+			setPage(data.page)
+			setTotalPages(data.total_pages)
+		} catch (err) {
+			setError(err instanceof Error ? err.message : 'Unknown error')
+		} finally {
+			setLoading(false)
+		}
+	}
+
+	// ==========================
+	// Handlers
+	// ==========================
+
+	// handleSearch resets the movies list and triggers a new search based on the current form.
+	// It also scrolls the page to top and updates the URL search params.
+	const handleSearch = async (e: React.FormEvent) => {
+		e.preventDefault()
+
+		// Reset movies and pagination
+		setPopularMovies([])
+		setPage(1)
+		setTotalPages(1)
+
+		// Scroll to top
+		window.scrollTo({ top: 0, behavior: 'smooth' })
+
+		// Fetch first page
+		await fetchMoviesPage(form, 1, false)
+
+		// Update URL search params (only on search, not on every change)
+		setSearchParams({
+			language: form.language || '',
+			genres: form.genres.join(','),
+			certifications: form.certifications.join(','),
+			from: form.from,
+			to: form.to,
+			showMe: form.showMe,
+		})
+	}
+
+	// loadMovies is memoized with useCallback to avoid unnecessary re-creation on each render.
+	// This ensures the IntersectionObserver does not subscribe to a new function every time.
+	const loadMovies = useCallback(
+		async (pageToLoad: number) => {
+			if (pageToLoad > totalPages) return
+			await fetchMoviesPage(form, pageToLoad, true)
+		},
+		[form, totalPages],
+	)
+
+	// ==========================
+	// useEffects
+	// ==========================
+
+	// First effect: fetch initial genres, certifications, languages and the first page of movies.
 	useEffect(() => {
 		const fetchData = async () => {
-			setLoadingPopular(true)
+			setLoading(true)
+			setError(null)
+
 			try {
-				const [movies, genres, certifications] = await Promise.all([
-					fetchPopularMovies(),
+				const [genres, certifications, languages] = await Promise.all([
 					fetchMovieGenres(),
 					fetchMovieCertifications(),
+					fetchLanguages(),
 				])
 
-				setPopularMovies(movies)
 				setGenres(genres)
 				setCertifications(certifications)
-			} catch (error) {
-				console.error('Failed to fetch movies or genres:', error)
+				setLanguages(languages)
+
+				const data = await fetchDiscoverMovies({
+					showMe: 'everything',
+					language: null,
+					genres: [],
+					certifications: [],
+					from: '',
+					to: '',
+				})
+
+				setPopularMovies(data.results)
+			} catch (err) {
+				console.error('Failed to fetch initial data:', err)
+				setError(err instanceof Error ? err.message : 'Unknown error')
 			} finally {
-				setLoadingPopular(false)
+				setLoading(false)
 			}
 		}
 
 		fetchData()
 	}, [])
+
+	// Second effect: synchronize form state with URL search params when the page loads or params change.
+	// Important: this only runs on mount or when searchParams change; it does not update the URL itself.
+	useEffect(() => {
+		const params = Object.fromEntries([...searchParams])
+		setForm((prev) => ({
+			...prev,
+			language: params.language || null,
+			genres: params.genres ? params.genres.split(',').map(Number) : [],
+			certifications: params.certifications ? params.certifications.split(',').map(String) : [],
+			from: params.from || '',
+			to: params.to || '',
+			showMe: (params.showMe as 'everything' | 'watched' | 'unwatched') || 'everything',
+		}))
+	}, [searchParams])
+
+	// Third effect: infinite scroll via IntersectionObserver
+	// Note: use a local variable (currentSentinel) for cleanup to avoid React ref warning
+	// The observer triggers loadMovies for the next page when the sentinel becomes visible.
+	useEffect(() => {
+		if (!sentinelRef.current) return
+
+		const currentSentinel = sentinelRef.current
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				const entry = entries[0]
+				if (entry.isIntersecting && !loading && page < totalPages) {
+					loadMovies(page + 1)
+				}
+			},
+			{ root: null, rootMargin: '200px', threshold: 1.0 },
+		)
+
+		observer.observe(sentinelRef.current)
+
+		return () => {
+			if (currentSentinel) observer.unobserve(currentSentinel)
+		}
+	}, [page, totalPages, loading, loadMovies])
 
 	return (
 		<>
@@ -59,104 +191,47 @@ const MoviesPage: React.FC = () => {
 						<h2>Popular Movies</h2>
 					</div>
 					<div className="content flex-row">
-						<div className="filter-panel">
-							<div className="filter-panel-title">
-								<h2>Filters</h2>
-							</div>
-							<div className="filter-panel-item">
-								<h3>Show Me</h3>
-								<div className="filter-panel-field">
-									<input
-										id="show-me-everything"
-										className="radio"
-										type="radio"
-										name="show-me"
-										value="everything"
-									></input>
-									<label htmlFor="show-me-everything" className="radio-label">
-										Everything
-									</label>
-								</div>
-								<div className="filter-panel-field">
-									<input
-										id="show-me-not-seen"
-										className="radio"
-										type="radio"
-										name="show-me"
-										value="unwatched"
-									></input>
-									<label htmlFor="show-me-not-seen" className="radio-label">
-										Movies I Haven't Seen
-									</label>
-								</div>
-								<div className="filter-panel-field">
-									<input
-										id="show-me-seen"
-										className="radio"
-										type="radio"
-										name="show-me"
-										value="watched"
-									></input>
-									<label htmlFor="show-me-seen" className="radio-label">
-										Movies I Have Seen
-									</label>
-								</div>
-							</div>
+						<MovieFilters
+							form={form}
+							setForm={setForm}
+							genres={genres}
+							certifications={certifications}
+							languages={languages}
+							loading={loading}
+							onSearch={handleSearch}
+						/>
 
-							<div className="filter-panel-item">
-								<h3>Release Dates</h3>
-								<DateRangeFilter
-									from={filters.from}
-									to={filters.to}
-									onChange={(range) => setFilters((prev) => ({ ...prev, ...range }))}
-								/>
-							</div>
-
-							<div className="filter-panel-item">
-								<h3>Genres</h3>
-								<ul className="list flex flex-wrap">
-									{genres.map((genre) => (
-										<li key={genre.id} className="list-item">
-											{genre.name}
-										</li>
-									))}
-								</ul>
-							</div>
-
-							<div className="filter-panel-item">
-								<h3>Certification</h3>
-								<ul className="list flex flex-wrap">
-									{certifications.map((cert) => (
-										<li key={cert.certification} className="list-item">
-											{cert.certification}
-										</li>
-									))}
-								</ul>
-							</div>
-						</div>
 						<section className="content-items">
-							<div className="items-wrapper">
-								{popularMovies.map((movie) => {
-									const poster = movie.poster_path
-										? `https://image.tmdb.org/t/p/w342${movie.poster_path}`
-										: null
+							{loading && <div className="loader">Loading movies...</div>}
+							{error && <div className="error">{error}</div>}
 
-									return (
-										<Link to={`/movie/${movie.id}`} className="movie-card" key={movie.id}>
-											<div className="movie-card-poster">
-												<ImageWithFallback
-													src={poster}
-													alt={movie.title || 'Image'}
-													type="poster"
-												/>
-											</div>
-											<div className="movie-card-title">
-												<h2>{movie.title}</h2>
-												<p>{formatDateShort(movie.release_date)}</p>
-											</div>
-										</Link>
-									)
-								})}
+							<div className="items-wrapper">
+								{!loading &&
+									!error &&
+									popularMovies.map((movie) => {
+										const poster = movie.poster_path
+											? `https://image.tmdb.org/t/p/w342${movie.poster_path}`
+											: null
+
+										return (
+											<Link to={`/movie/${movie.id}`} className="movie-card" key={movie.id}>
+												<div className="movie-card-poster">
+													<ImageWithFallback
+														src={poster}
+														alt={movie.title || 'Image'}
+														type="poster"
+													/>
+												</div>
+												<div className="movie-card-title">
+													<h2>{movie.title}</h2>
+													<p>{formatDateShort(movie.release_date)}</p>
+												</div>
+											</Link>
+										)
+									})}
+
+								{/* Sentinel element triggers loading more */}
+								<div ref={sentinelRef} style={{ height: '1px' }}></div>
 							</div>
 						</section>
 					</div>

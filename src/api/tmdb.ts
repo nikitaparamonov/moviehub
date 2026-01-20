@@ -2,6 +2,8 @@
 // TMDB API configuration
 // ===========================
 
+import { buildDiscoverParams } from './builders'
+
 export const BASE_URL = 'https://api.themoviedb.org/3'
 export const API_KEY = process.env.REACT_APP_TMDB_API_KEY
 
@@ -319,6 +321,32 @@ export interface MediaVideosPostersData {
 	posters: Image[]
 }
 
+// Language
+export interface Language {
+	iso_639_1: string
+	english_name: string
+	name: string
+}
+
+// Discover movies interfaces
+export interface DiscoverMoviesResponse {
+	page: number
+	results: MovieDetails[]
+	total_results: number
+	total_pages: number
+}
+
+export type ShowMeFilter = 'everything' | 'watched' | 'unwatched'
+
+export interface MoviesFilterForm {
+	showMe: ShowMeFilter
+	language: string | null
+	from: string
+	to: string
+	genres: number[]
+	certifications: string[]
+}
+
 // ===========================
 // TMDB fetch wrapper
 // ===========================
@@ -349,6 +377,17 @@ async function fetchTMDB<T>(endpoint: string, params: Record<string, string | nu
 // ===========================
 // TMDB endpoints
 // ===========================
+
+// Fetch movies from TMDB discover endpoint using filters from the form
+export const fetchDiscoverMovies = async (
+	form: MoviesFilterForm,
+	page: number = 1,
+): Promise<DiscoverMoviesResponse> => {
+	const params = buildDiscoverParams(form)
+	params.page = page
+
+	return fetchTMDB<DiscoverMoviesResponse>('/discover/movie', params)
+}
 
 // Popular movies
 export const fetchPopularMovies = async () => {
@@ -505,4 +544,8 @@ export const fetchMovieGenres = async (): Promise<Genre[]> => {
 export const fetchMovieCertifications = async (country = 'US'): Promise<Certification[]> => {
 	const data = await fetchTMDB<{ certifications: Record<string, Certification[]> }>('/certification/movie/list')
 	return data.certifications[country] || []
+}
+
+export const fetchLanguages = async () => {
+	return fetchTMDB<Language[]>('/configuration/languages')
 }
