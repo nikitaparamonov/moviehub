@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { CastCredit, CrewCredit } from '../api/tmdb'
+import { CastCredit, CrewCredit } from '../api'
 import { usePersonData } from '../components/hooks/usePersonData'
 import '../components/css/PersonPage.css'
 import Header from '../components/Header'

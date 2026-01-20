@@ -1,5 +1,5 @@
 import React from 'react'
-import { CastCredit } from '../../api/tmdb'
+import { CastCredit } from '../../api'
 import { ImageWithFallback } from '../ui/ImageWithFallback'
 
 interface ActorItemProps {

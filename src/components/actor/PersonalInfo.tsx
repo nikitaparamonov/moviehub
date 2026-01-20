@@ -1,4 +1,4 @@
-import { PersonDetails } from "../../api/tmdb"
+import { PersonDetails } from "../../api"
 import { formatDateLong } from '../../utils/date'
 
 interface PersonalInfoProps {

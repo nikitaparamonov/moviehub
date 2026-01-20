@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { CastCredit, CrewCredit, MediaSummary } from '../../api/tmdb'
+import { CastCredit, CrewCredit, MediaSummary } from '../../api'
 
 interface FilmographyProps {
 	actingCredits: Array<CastCredit & Partial<MediaSummary<'movie' | 'tv'>>>

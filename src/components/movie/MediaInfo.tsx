@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useDominantColor } from '../hooks/useDominantColor'
 import { formatRuntime, getYear } from '../../utils/date'
-import { CrewCredit, Genre } from '../../api/tmdb'
+import { CrewCredit, Genre } from '../../api'
 import { ImageWithFallback } from '../ui/ImageWithFallback'
 import "../css/movie-page/MovieHeader.css"
 

@@ -7,7 +7,7 @@ import {
 	MediaVideosBackdropsData,
 	MediaVideosPageData,
 	MediaVideosPostersData,
-} from '../api/tmdb'
+} from '../api'
 import { getMediaTabsForPanel, normalizeTabName } from '../utils/getMediaTabsForPanel'
 import VideoCard from '../components/media-page/VideoCard'
 import MiniHeader from '../components/MiniHeader'

@@ -11,7 +11,7 @@ import {
 	Language,
 	MovieDetails,
 	MoviesFilterForm,
-} from '../api/tmdb'
+} from '../api'
 import '../components/css/MoviesPage.css'
 import { formatDateShort } from '../utils/date'
 import { Link, useSearchParams } from 'react-router-dom'

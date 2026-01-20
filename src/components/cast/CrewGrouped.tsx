@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import type { CrewCredit } from '../../api/tmdb'
+import type { CrewCredit } from '../../api'
 import { ImageWithFallback } from '../ui/ImageWithFallback'
 
 interface CrewGroupedProps {

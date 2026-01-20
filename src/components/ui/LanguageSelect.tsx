@@ -1,4 +1,4 @@
-import { Language } from "../../api/tmdb"
+import { Language } from "../../api"
 
 interface LanguageSelectProps {
 	languages: Language[]

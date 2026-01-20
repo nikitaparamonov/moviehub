@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
-import { fetchSearchMulti, SearchResult } from '../api/tmdb'
+import { fetchSearchMulti, SearchResult } from '../api'
 
 import PageContainer from '../components/layout/PageContainer'
 import SearchFilter, { FilterType } from '../components/search/SearchFilter'

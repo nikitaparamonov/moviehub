@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { MovieDetails, TVDetails, type Review } from '../../api/tmdb'
+import { MovieDetails, TVDetails, type Review } from '../../api'
 import { formatDateLong } from '../../utils/date'
 import { Link } from 'react-router-dom'
 import { createPreviewNodes, parseReview } from '../../utils/parseReview'

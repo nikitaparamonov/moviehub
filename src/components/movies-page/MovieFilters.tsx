@@ -1,5 +1,5 @@
 import React from 'react'
-import { Genre, Certification, Language, MoviesFilterForm } from '../../api/tmdb'
+import { Genre, Certification, Language, MoviesFilterForm } from '../../api'
 import DateRangeFilter from '../ui/DateRangeFilter'
 import { LanguageSelect } from '../ui/LanguageSelect'
 import '../css/FilterPanel.css'

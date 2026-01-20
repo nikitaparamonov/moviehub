@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { fetchPopularMovies, fetchMediaVideos, TrailerItem } from '../../api/tmdb'
+import { fetchPopularMovies, fetchMediaVideos, TrailerItem } from '../../api'
 
 export function useLatestTrailers(maxItems: number = 20) {
     const [items, setItems] = useState<TrailerItem[]>([])

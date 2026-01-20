@@ -1,5 +1,5 @@
 import React from 'react'
-import { MovieDetails } from '../../api/tmdb'
+import { MovieDetails } from '../../api'
 import HorizontalScrollBlock, { HorizontalScrollItem } from '../ui/HorizontalScrollBlock'
 import '../css/HorizontalScrollBlock.css'
 import '../css/home/HomePage.css'

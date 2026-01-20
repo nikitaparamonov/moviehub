@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { CastCredit, MediaSummary } from '../../api/tmdb'
+import { CastCredit, MediaSummary } from '../../api'
 import { Link } from 'react-router-dom'
 
 interface KnownForProps {

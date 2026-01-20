@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import './../css/Search.css'
-import { SearchResult, MovieDetails, TVDetails, Person } from '../../api/tmdb'
+import { SearchResult, MovieDetails, TVDetails, Person } from '../../api'
 import NoImageIcon from '../icons/NoImageIcon.svg'
 import { formatDateLong } from '../../utils/date'
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { CastCredit, CrewCredit, fetchMediaCredits, fetchMediaDetails, MovieDetails, TVDetails } from '../api/tmdb'
+import { CastCredit, CrewCredit, fetchMediaCredits, fetchMediaDetails, MovieDetails, TVDetails } from '../api'
 import MiniHeader from '../components/MiniHeader'
 import '../components/css/MediaCast.css'
 import CrewGrouped from '../components/cast/CrewGrouped'

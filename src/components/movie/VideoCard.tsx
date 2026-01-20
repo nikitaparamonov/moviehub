@@ -1,5 +1,5 @@
 import React from 'react'
-import { Video } from '../../api/tmdb'
+import { Video } from '../../api'
 
 interface VideoCardProps {
 	video: Video

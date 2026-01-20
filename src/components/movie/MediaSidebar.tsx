@@ -1,7 +1,7 @@
 import React from 'react'
 import SocialLinks from './SocialLinks'
 import { getLanguageName } from '../../utils/lang'
-import { ExternalIDsResponse, Keyword, MovieDetails, TVDetails } from '../../api/tmdb'
+import { ExternalIDsResponse, Keyword, MovieDetails, TVDetails } from '../../api'
 import { ImageWithFallback } from '../ui/ImageWithFallback'
 
 interface MediaSidebarProps {

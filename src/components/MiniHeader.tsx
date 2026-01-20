@@ -1,4 +1,4 @@
-import { MovieDetails, TVDetails } from '../api/tmdb'
+import { MovieDetails, TVDetails } from '../api'
 import { getYear } from '../utils/date'
 import '../components/css/MiniHeader.css'
 import { Link } from 'react-router-dom'

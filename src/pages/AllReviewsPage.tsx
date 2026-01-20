@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { fetchMediaDetails, fetchMovieReviews, MovieDetails, TVDetails, type Review } from '../api/tmdb'
+import { fetchMediaDetails, fetchMovieReviews, MovieDetails, TVDetails, type Review } from '../api'
 import ReviewCard from '../components/movie/ReviewCard'
 import '../components/css/ReviewPage.css'
 import MiniHeader from '../components/MiniHeader'

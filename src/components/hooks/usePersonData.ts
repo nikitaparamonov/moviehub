@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { fetchPersonDetails, fetchPersonCombinedCredits } from '../../api/tmdb'
-import type { PersonDetails, CastCredit, CrewCredit, CombinedPersonCredits } from '../../api/tmdb'
+import { fetchPersonDetails, fetchPersonCombinedCredits } from '../../api'
+import type { PersonDetails, CastCredit, CrewCredit, CombinedPersonCredits } from '../../api'
 
 // Define a unified type for credits (cast + crew)
 type PersonCredit = CastCredit | CrewCredit

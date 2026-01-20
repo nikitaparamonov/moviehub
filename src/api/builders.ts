@@ -1,4 +1,4 @@
-import { MoviesFilterForm } from './tmdb'
+import { MoviesFilterForm } from './types'
 
 // Builds the query parameters for TMDB discover/movie endpoint based on the selected filters from the form
 export const buildDiscoverParams = (form: MoviesFilterForm) => {

@@ -1,5 +1,5 @@
 import React from 'react'
-import type { CastCredit } from '../../api/tmdb'
+import type { CastCredit } from '../../api'
 import HorizontalScrollBlock, { HorizontalScrollItem } from '../ui/HorizontalScrollBlock'
 import { Link } from 'react-router-dom'
 import '../css/HorizontalScrollBlock.css'

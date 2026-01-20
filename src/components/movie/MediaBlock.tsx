@@ -1,5 +1,5 @@
 import React, { useId, useMemo } from 'react'
-import type { MovieMedia } from '../../api/tmdb'
+import type { MovieMedia } from '../../api'
 import VideoCard from './VideoCard'
 import Empty from '../Empty'
 import { ImageWithFallback } from '../ui/ImageWithFallback'

@@ -1,4 +1,4 @@
-import { Video } from '../../api/tmdb'
+import { Video } from '../../api'
 import { formatDateLong } from '../../utils/date'
 import '../css/media-page/VideoCard.css'
 import { ReactComponent as YouTubeIcon } from '../icons/youtube.svg'

@@ -1,5 +1,5 @@
 import type { MediaPanelItem } from '../components/media-page/MediaPanel'
-import type { Video, Image } from '../api/tmdb'
+import type { Video, Image } from '../api'
 import { getLanguageName } from './lang'
 
 type MediaDataItem = Video | Image

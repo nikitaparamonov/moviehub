@@ -1,5 +1,5 @@
 import React from 'react'
-import { MovieDetails, TVDetails, type Review } from '../../api/tmdb'
+import { MovieDetails, TVDetails, type Review } from '../../api'
 import { Link } from 'react-router-dom'
 import ReviewCard from './ReviewCard'
 import Empty from '../Empty'

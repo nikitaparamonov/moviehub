@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { fetchLatestTrailers, TrailerItem } from '../../api/tmdb'
+import { fetchLatestTrailers, TrailerItem } from '../../api'
 import "../css/home/LatestTrailers.css"
 import '../css/home/HomePage.css'
 import { ReactComponent as VideoPlayIcon } from '../icons/video-play-icon.svg'

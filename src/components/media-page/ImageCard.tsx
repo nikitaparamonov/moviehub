@@ -1,4 +1,4 @@
-import { Image } from '../../api/tmdb'
+import { Image } from '../../api'
 import '../css/media-page/ImageCard.css'
 
 type ImageCardProps = {

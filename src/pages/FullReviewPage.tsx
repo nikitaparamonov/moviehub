@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLocation, Link } from 'react-router-dom'
-import { MovieDetails, TVDetails, type Review } from '../api/tmdb'
+import { MovieDetails, TVDetails, type Review } from '../api'
 import { formatDateLong, getYear } from '../utils/date'
 import '../components/css/ReviewPage.css'
 import { parseReview } from '../utils/parseReview'

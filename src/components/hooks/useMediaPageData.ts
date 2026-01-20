@@ -6,7 +6,7 @@ import {
 	fetchSimilarMedia,
 	fetchMovieReviews,
 	fetchMediaReleaseData,
-} from '../../api/tmdb'
+} from '../../api'
 import type {
 	MovieDetails,
 	TVDetails,
@@ -16,7 +16,7 @@ import type {
 	ExternalIDsResponse,
 	Keyword,
 	Review,
-} from '../../api/tmdb'
+} from '../../api'
 import { formatReleaseDate } from '../../utils/date'
 
 export interface MediaPageData<T extends 'movie' | 'tv'> {
@@ -31,36 +31,34 @@ export interface MediaPageData<T extends 'movie' | 'tv'> {
 	releaseDate?: string
 }
 
-async function getMediaCertification(type: "movie" | "tv", id: number) {
-	const data = await fetchMediaReleaseData(type, id);
+async function getMediaCertification(type: 'movie' | 'tv', id: number) {
+	const data = await fetchMediaReleaseData(type, id)
 
-	if (data.type === "movie") {
-		const countryRelease = data.releaseDates.find(
-			(r) => r.iso_3166_1 === "US"
-		);
+	if (data.type === 'movie') {
+		const countryRelease = data.releaseDates.find((r) => r.iso_3166_1 === 'US')
 
-		const rawDate = countryRelease?.release_dates?.[0]?.release_date;
-		const certification = countryRelease?.release_dates?.[0]?.certification ?? "";
+		const rawDate = countryRelease?.release_dates?.[0]?.release_date
+		const certification = countryRelease?.release_dates?.[0]?.certification ?? ''
 
 		return {
 			certification,
-			releaseDate: rawDate ? formatReleaseDate(rawDate) : ""
-		};
+			releaseDate: rawDate ? formatReleaseDate(rawDate) : '',
+		}
 	}
 
-	if (data.type === "tv") {
-		const usRating = data.ratings.find((r) => r.iso_3166_1 === "US");
+	if (data.type === 'tv') {
+		const usRating = data.ratings.find((r) => r.iso_3166_1 === 'US')
 
-		return { 
-			certification: usRating?.rating ?? "", 
-			releaseDate: "" 
+		return {
+			certification: usRating?.rating ?? '',
+			releaseDate: '',
 		}
 	}
 
 	// fallback (should not happen)
 	return {
-		certification: "",
-		releaseDate: ""
+		certification: '',
+		releaseDate: '',
 	}
 }
 

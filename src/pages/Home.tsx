@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { fetchPopularMovies, MovieDetails } from '../api/tmdb'
+import { fetchPopularMovies, MovieDetails } from '../api'
 import SearchBanner from '../components/main/SearchBanner'
 import TrendingMovies from '../components/main/TrendingMovies'
 import '../components/css/home/HomePage.css'

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { PersonDetails } from '../../api/tmdb'
+import type { PersonDetails } from '../../api'
 
 interface BiographyProps {
 	person: PersonDetails

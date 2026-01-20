@@ -1,5 +1,5 @@
 import React from 'react'
-import type { MediaSummary } from '../../api/tmdb'
+import type { MediaSummary } from '../../api'
 import HorizontalScrollBlock, { HorizontalScrollItem } from '../ui/HorizontalScrollBlock'
 import '../css/HorizontalScrollBlock.css'
 
