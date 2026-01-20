@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/moviehub/static/css/main.27fa3520.css",
+    "main.js": "/moviehub/static/js/main.1092ce5a.js",
+    "static/js/453.12cd4881.chunk.js": "/moviehub/static/js/453.12cd4881.chunk.js",
+    "static/media/searchBannerBackground.jpg": "/moviehub/static/media/searchBannerBackground.f07a48411bb9d6bebdd1.jpg",
+    "static/media/wiki.svg": "/moviehub/static/media/wiki.5ca2856782e606cddc0a625e72be9c82.svg",
+    "static/media/instagram.svg": "/moviehub/static/media/instagram.c83e628eea4e83e0d2b6c8e54910510c.svg",
+    "static/media/movie-hub-logo.svg": "/moviehub/static/media/movie-hub-logo.1ba128260d9300d3988865b0e8068602.svg",
+    "static/media/NoImageIcon.svg": "/moviehub/static/media/NoImageIcon.cdc70104fe660f3157ae5dbb56f4b59e.svg",
+    "static/media/youtube.svg": "/moviehub/static/media/youtube.2c0dbe805150d3cbf4e445b7c94682dd.svg",
+    "static/media/PlayIcon.svg": "/moviehub/static/media/PlayIcon.d83a788060fce3615d01.svg",
+    "static/media/homepage-link.svg": "/moviehub/static/media/homepage-link.2cea27d76138169d40c6c780b936624e.svg",
+    "index.html": "/moviehub/index.html",
+    "static/media/NoPortraitIcon.svg": "/moviehub/static/media/NoPortraitIcon.ca7765f773a4ef0ee410e652a2a887d3.svg",
+    "static/media/imdb.svg": "/moviehub/static/media/imdb.26fee5df1fe6d929936c1350f5dd2e98.svg",
+    "static/media/twitter.svg": "/moviehub/static/media/twitter.dc3f1229c98ceb25ed6d9384ae804ca1.svg",
+    "static/media/NoPosterIcon.svg": "/moviehub/static/media/NoPosterIcon.f9db13c5f6963815666d104105243935.svg",
+    "static/media/facebook.svg": "/moviehub/static/media/facebook.1fc810a8e15c60ec41d7d0586cb4c1d5.svg",
+    "static/media/video-play-icon.svg": "/moviehub/static/media/video-play-icon.ef25bc349f6da78d2a49cd8d13e7294c.svg",
+    "main.27fa3520.css.map": "/moviehub/static/css/main.27fa3520.css.map",
+    "main.1092ce5a.js.map": "/moviehub/static/js/main.1092ce5a.js.map",
+    "453.12cd4881.chunk.js.map": "/moviehub/static/js/453.12cd4881.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.27fa3520.css",
+    "static/js/main.1092ce5a.js"
+  ]
+}
